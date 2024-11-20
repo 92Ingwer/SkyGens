@@ -1,0 +1,8 @@
+name: FreeBuild
+version: '1.0'
+main: org.kim.freeBuild.FreeBuild
+api-version: '1.21'
+softdpend: [ 'Multiverse-Core' ]
+commands:
+  createisland:
+  istp:
