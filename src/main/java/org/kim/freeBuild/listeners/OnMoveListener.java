@@ -24,6 +24,7 @@ public class OnMoveListener implements Listener {
             PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(t);
             Location l = e.getFrom();
             cancelMove(e, p, playerBaseObject, l);
+            //
         }
     }
 
