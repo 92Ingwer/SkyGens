@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.kim.freeBuild.FreeBuild;
 import org.kim.freeBuild.listeners.OnQuitListener;
 import org.kim.freeBuild.methods.CreateIslandMethods;
+import org.kim.freeBuild.objects.GenerationBaseObject;
 import org.kim.freeBuild.objects.PlayerBaseObject;
 
 import java.io.File;
@@ -53,7 +54,9 @@ public class CreateIslandCommand implements CommandExecutor {
                 OnQuitListener.updateDB(0, strings[0], finalIslandId, "InselWelt", finalIslandId * 4000, 170, finalIslandId * 4000, p.getUniqueId().toString(), 1);
                 PlayerBaseObject.playerBaseObjectMap.put(p, playerBaseObject);
                 Location islandCenter = new Location(Bukkit.getWorld("InselWelt"), (finalIslandId * 4000) + 9, 179, (finalIslandId * 4000) + 8);
-
+                //genbase erstellen
+                GenerationBaseObject generationBaseObject = new GenerationBaseObject(-1,-1,-1,1);
+                GenerationBaseObject.generationBaseObjectMap.put(p, generationBaseObject);
                 // Schematic laden
                 File schematicFile = new File(Bukkit.getServer().getPluginManager().getPlugin("WorldEdit").getDataFolder(), "schematics/inselperfect.schem");
                 CreateIslandMethods.paste(islandCenter, schematicFile, p);

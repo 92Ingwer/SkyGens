@@ -1,7 +1,6 @@
 package org.kim.freeBuild;
 
 import org.bukkit.Bukkit;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.kim.freeBuild.commands.CreateIslandCommand;
 import org.kim.freeBuild.commands.GetGenCommand;
@@ -26,7 +25,7 @@ public final class FreeBuild extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new OnMoveListener(),this);
         Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(),this);
         Bukkit.getPluginManager().registerEvents(new GetGenGUI(),this);
-        Bukkit.getPluginManager().registerEvents(new PlaceBlockListener(),this);
+        Bukkit.getPluginManager().registerEvents(new PlaceGenEvent(),this);
         this.getCommand("createisland").setExecutor(new CreateIslandCommand());
         this.getCommand("istp").setExecutor(new IslandTPCommand());
         this.getCommand("getgen").setExecutor(new GetGenCommand());

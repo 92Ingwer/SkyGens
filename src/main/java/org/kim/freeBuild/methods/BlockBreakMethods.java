@@ -8,7 +8,7 @@ public class BlockBreakMethods {
     public static boolean isBlockAnOre(Block block) {
         Material material = block.getType();
         for(MineralsEnum mineralsEnum : MineralsEnum.values()) {
-            if(mineralsEnum.getMaterial() == material) {
+            if(mineralsEnum.getMaterial3() == material) {
                 return true;
             }
         }
