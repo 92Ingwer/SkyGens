@@ -22,6 +22,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.entity.Player;
+import org.kim.freeBuild.objects.PlayerBaseObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,27 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class CreateIslandMethods {
-    public static void saveIslandSchematic(Location primary, Location secondary, File schematicFile) {
-        Region region = new CuboidRegion(BukkitAdapter.asBlockVector(primary), BukkitAdapter.asBlockVector(secondary));
-        EditSession editSession = createEditSession(primary.getWorld());
 
-        BlockArrayClipboard clipboard = new BlockArrayClipboard(region);
-        ForwardExtentCopy copy = new ForwardExtentCopy(editSession,region,clipboard,region.getMinimumPoint());
-
-        try {
-            Operations.complete(copy);
-        } catch (final WorldEditException e) {
-            e.printStackTrace();
-        }
-
-        try (Closer closer = Closer.create()) {
-             FileOutputStream outputStream = closer.register(new FileOutputStream(schematicFile));
-             ClipboardWriter writer = closer.register(BuiltInClipboardFormat.SPONGE_V3_SCHEMATIC.getWriter(outputStream));
-            writer.write(clipboard);
-        } catch (final Throwable t) {
-            t.printStackTrace();
-        }
-    }
     public static void paste(Location to, File schematicFile, Player p) {
         // Überprüfen, ob die Datei existiert
         if (!schematicFile.exists()) {
@@ -81,11 +62,8 @@ public class CreateIslandMethods {
             e.printStackTrace();
         }
     }
-
-    private static EditSession createEditSession(World bukkitWorld) {
-        final EditSession session = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(bukkitWorld));
-        session.setSideEffectApplier(SideEffectSet.defaults());
-
-        return session;
+    public static boolean hasPlayerIsland(Player p) {
+        PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(p);
+        return !(playerBaseObject.getX() < 0);
     }
 }

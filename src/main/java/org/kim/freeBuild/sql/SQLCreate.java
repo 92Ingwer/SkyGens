@@ -8,13 +8,13 @@ import java.util.UUID;
 
 public class SQLCreate {
     public static void create() {
-        FreeBuild.getSql().update("CREATE TABLE IF NOT EXISTS playerbase (uuid VARCHAR(36), bankmoney BIGINT, islandname VARCHAR(36),islandid BIGINT, world VARCHAR(36), x DOUBLE, y DOUBLE, z DOUBLE)");
+        FreeBuild.getSql().update("CREATE TABLE IF NOT EXISTS playerbase (uuid VARCHAR(36), bankmoney BIGINT, islandname VARCHAR(36),islandid BIGINT, world VARCHAR(36), x DOUBLE, y DOUBLE, z DOUBLE, amountofgens BIGINT)");
     }
 
 
     public static void insertUser(UUID uuid) {
         if (!userExists(uuid)) {
-            FreeBuild.getSql().update("INSERT INTO playerbase (uuid, bankmoney, islandname, islandid, world, x, y, z) VALUES ('" + uuid + "', '0', NULL, NULL, NULL, NULL, NULL, NULL)");
+            FreeBuild.getSql().update("INSERT INTO playerbase (uuid, bankmoney, islandname, islandid, world, x, y, z, amountofgens) VALUES ('" + uuid + "', '0', NULL, NULL, NULL, '-1', '-1', '-1','0')");
         }
     }
 
@@ -106,5 +106,16 @@ public class SQLCreate {
             e.printStackTrace();
         }
         return -1.0;
+    }
+    public static Integer getAmountofGens(UUID uuid) {
+        try {
+            ResultSet rs = FreeBuild.getSql().getResult("SELECT amountofgens FROM playerbase WHERE uuid = '" + uuid + "'");
+            if (rs.next()) {
+                return rs.getInt("amountofgens");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 }

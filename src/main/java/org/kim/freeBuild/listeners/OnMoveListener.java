@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.util.Vector;
 import org.kim.freeBuild.objects.PlayerBaseObject;
 import org.kim.freeBuild.services.IslandService;
 
@@ -24,7 +23,7 @@ public class OnMoveListener implements Listener {
             PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(t);
             Location l = e.getFrom();
             cancelMove(e, p, playerBaseObject, l);
-            //
+
         }
     }
 

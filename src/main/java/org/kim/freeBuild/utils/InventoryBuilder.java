@@ -32,8 +32,8 @@ public class InventoryBuilder {
         }
     }
 
-    public InventoryBuilder aItem(int slot, Material material, String name, List<Component> lore) {
-        inventory.setItem(slot, new ItemBuilder(material).name(Component.text(name)).lore(lore).build());
+    public InventoryBuilder aItem(int slot, Material material, Component name, List<Component> lore) {
+        inventory.setItem(slot, new ItemBuilder(material).name(name).lore(lore).build());
         return this;
     }
 

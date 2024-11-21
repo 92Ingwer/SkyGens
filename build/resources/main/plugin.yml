@@ -6,3 +6,4 @@ softdpend: [ 'Multiverse-Core' ]
 commands:
   createisland:
   istp:
+  getgen:

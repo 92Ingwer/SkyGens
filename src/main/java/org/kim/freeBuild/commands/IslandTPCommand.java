@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.kim.freeBuild.methods.CreateIslandMethods;
 import org.kim.freeBuild.objects.PlayerBaseObject;
 import org.kim.freeBuild.services.IslandService;
 
@@ -19,6 +20,10 @@ public class IslandTPCommand implements CommandExecutor {
         Player p = (Player) commandSender;
         if(strings.length > 1) {
             p.sendMessage("§cUsage: /istp (Spieler)");
+            return false;
+        }
+        if(!CreateIslandMethods.hasPlayerIsland(p)) {
+            p.sendMessage("Hast keine Insel bro");
             return false;
         }
         if(strings.length == 0) {
