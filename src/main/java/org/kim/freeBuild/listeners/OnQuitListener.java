@@ -29,10 +29,12 @@ public class OnQuitListener implements Listener {
         double yg = generationBaseObject.getY();
         double zg = generationBaseObject.getZ();
         int level = generationBaseObject.getLevel();
+        int upgrade = generationBaseObject.getUpgrade();
+        double fuel = generationBaseObject.getFuel();
         //rest
         String uuid = player.getUniqueId().toString();
         updateDB(bankmoney,islandname,islandid,world,x,y,z,uuid,amountofgens);
-        updateDB2(xg,yg,zg,level,uuid);
+        updateDB2(xg,yg,zg,level,uuid,upgrade,fuel);
     }
     public static void updateDB(int bankmoney, String islandname, int islandid, String world, double x, double y, double z, String uuid, int amountofgens) {
         Bukkit.getScheduler().runTaskAsynchronously(FreeBuild.getInstance(), () -> {
@@ -47,13 +49,15 @@ public class OnQuitListener implements Listener {
             FreeBuild.getSql().update("UPDATE playerbase set amountofgens = '" + amountofgens + "' WHERE uuid = '" + uuid + "'");
         });
     }
-    public static void updateDB2(double xg, double yg, double zg, int level, String uuid) {
+    public static void updateDB2(double xg, double yg, double zg, int level, String uuid,int upgrade, double fuel) {
         Bukkit.getScheduler().runTaskAsynchronously(FreeBuild.getInstance(), () -> {
             //genbase
             FreeBuild.getSql().update("UPDATE genbase set x = '" + xg + "' WHERE uuid = '" + uuid + "'");
             FreeBuild.getSql().update("UPDATE genbase set y = '" + yg + "' WHERE uuid = '" + uuid + "'");
             FreeBuild.getSql().update("UPDATE genbase set z = '" + zg + "' WHERE uuid = '" + uuid + "'");
             FreeBuild.getSql().update("UPDATE genbase set level = '" + level + "' WHERE uuid = '" + uuid + "'");
+            FreeBuild.getSql().update("UPDATE genbase set upgrade = '" + upgrade  + "' WHERE uuid = '" + uuid + "'");
+            FreeBuild.getSql().update("UPDATE genbase set fuel = '" + fuel  + "' WHERE uuid = '" + uuid + "'");
         });
     }
 }

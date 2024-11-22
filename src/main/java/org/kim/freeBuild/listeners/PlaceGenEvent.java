@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.kim.freeBuild.enums.MineralsEnum;
+import org.kim.freeBuild.guis.GenGUI;
 import org.kim.freeBuild.items.GeneratorItem;
 import org.kim.freeBuild.objects.GenerationBaseObject;
 
@@ -24,19 +25,25 @@ public class PlaceGenEvent implements Listener {
             Block b2 = loc.getBlock();
             GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
             int level = generationBaseObject.getLevel();
-            b2.setType(MineralsEnum.getMaterial(level));
-            GenerationBaseObject generationBaseObject1 = new GenerationBaseObject(loc.getX(),loc.getY(),loc.getZ(),level);
-            GenerationBaseObject.generationBaseObjectMap.put(p, generationBaseObject1);
+            int upgrade = generationBaseObject.getUpgrade();
+            double fuel = generationBaseObject.getFuel();
+            if (generationBaseObject.getX() == -1 && generationBaseObject.getY() == -1 && generationBaseObject.getZ() == -1) {
+                b2.setType(MineralsEnum.getMaterial(level));
+                GenerationBaseObject generationBaseObject1 = new GenerationBaseObject(loc.getX(), loc.getY(), loc.getZ(), level, upgrade, fuel);
+                GenerationBaseObject.generationBaseObjectMap.put(p, generationBaseObject1);
+            } else {
+                p.sendMessage("Du kannst keinen Gen placen!");
+            }
         }
-        if(action == Action.RIGHT_CLICK_BLOCK) {
+        if (action == Action.RIGHT_CLICK_BLOCK) {
             GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
             double x = generationBaseObject.getX();
             double y = generationBaseObject.getY();
             double z = generationBaseObject.getZ();
 
             Location location = new Location(p.getWorld(), x, y, z);
-            if(location.equals(b.getLocation()) && location.getWorld().equals(Bukkit.getWorld("InselWelt"))) {
-                p.sendMessage("ALLES KLAPPT ABI");
+            if (location.equals(b.getLocation()) && location.getWorld().equals(Bukkit.getWorld("InselWelt"))) {
+                GenGUI.openInventory(p);
             }
         }
     }

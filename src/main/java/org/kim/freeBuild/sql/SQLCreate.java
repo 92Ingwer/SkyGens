@@ -9,14 +9,14 @@ import java.util.UUID;
 public class SQLCreate {
     public static void create() {
         FreeBuild.getSql().update("CREATE TABLE IF NOT EXISTS playerbase (uuid VARCHAR(36), bankmoney BIGINT, islandname VARCHAR(36),islandid BIGINT, world VARCHAR(36), x DOUBLE, y DOUBLE, z DOUBLE, amountofgens BIGINT)");
-        FreeBuild.getSql().update("CREATE TABLE IF NOT EXISTS genbase (uuid VARCHAR(36), x DOUBLE, y DOUBLE,z DOUBLE, level BIGINT)");
+        FreeBuild.getSql().update("CREATE TABLE IF NOT EXISTS genbase (uuid VARCHAR(36), x DOUBLE, y DOUBLE,z DOUBLE, level BIGINT, upgrade BIGINT, fuel DOUBLE)");
     }
 
 
     public static void insertUser(UUID uuid) {
         if (!userExists(uuid)) {
             FreeBuild.getSql().update("INSERT INTO playerbase (uuid, bankmoney, islandname, islandid, world, x, y, z, amountofgens) VALUES ('" + uuid + "', '0', NULL, NULL, NULL, '-1', '-1', '-1','0')");
-            FreeBuild.getSql().update("INSERT INTO genbase (uuid, x, y, z, level) VALUES ('" + uuid + "', NULL, NULL, NULL, '0')");
+            FreeBuild.getSql().update("INSERT INTO genbase (uuid, x, y, z, level, upgrade, fuel) VALUES ('" + uuid + "', NULL, NULL, NULL, '0','-1','0')");
         }
     }
 
@@ -31,6 +31,7 @@ public class SQLCreate {
         }
         return false;
     }
+
     public static Integer getBankMoney(UUID uuid) {
         try {
             ResultSet rs = FreeBuild.getSql().getResult("SELECT bankmoney FROM playerbase WHERE uuid = '" + uuid + "'");
@@ -42,6 +43,7 @@ public class SQLCreate {
         }
         return -1;
     }
+
     public static String getIslandname(UUID uuid) {
         try {
             ResultSet rs = FreeBuild.getSql().getResult("SELECT islandname FROM playerbase WHERE uuid = '" + uuid + "'");
@@ -53,6 +55,7 @@ public class SQLCreate {
         }
         return null;
     }
+
     public static Integer getIslandid(UUID uuid) {
         try {
             ResultSet rs = FreeBuild.getSql().getResult("SELECT islandid FROM playerbase WHERE uuid = '" + uuid + "'");
@@ -64,6 +67,7 @@ public class SQLCreate {
         }
         return -1;
     }
+
     public static String getWorldName(UUID uuid) {
         try {
             ResultSet rs = FreeBuild.getSql().getResult("SELECT world FROM playerbase WHERE uuid = '" + uuid + "'");
@@ -75,6 +79,7 @@ public class SQLCreate {
         }
         return null;
     }
+
     public static Double getX(UUID uuid) {
         try {
             ResultSet rs = FreeBuild.getSql().getResult("SELECT x FROM playerbase WHERE uuid = '" + uuid + "'");
@@ -86,6 +91,7 @@ public class SQLCreate {
         }
         return -1.0;
     }
+
     public static Double getY(UUID uuid) {
         try {
             ResultSet rs = FreeBuild.getSql().getResult("SELECT y FROM playerbase WHERE uuid = '" + uuid + "'");
@@ -109,6 +115,7 @@ public class SQLCreate {
         }
         return -1.0;
     }
+
     public static Integer getAmountofGens(UUID uuid) {
         try {
             ResultSet rs = FreeBuild.getSql().getResult("SELECT amountofgens FROM playerbase WHERE uuid = '" + uuid + "'");
@@ -120,6 +127,7 @@ public class SQLCreate {
         }
         return -1;
     }
+
     public static Double getXG(UUID uuid) {
         try {
             ResultSet rs = FreeBuild.getSql().getResult("SELECT x FROM genbase WHERE uuid = '" + uuid + "'");
@@ -131,6 +139,7 @@ public class SQLCreate {
         }
         return -1.0;
     }
+
     public static Double getYG(UUID uuid) {
         try {
             ResultSet rs = FreeBuild.getSql().getResult("SELECT y FROM genbase WHERE uuid = '" + uuid + "'");
@@ -154,6 +163,7 @@ public class SQLCreate {
         }
         return -1.0;
     }
+
     public static Integer getLevel(UUID uuid) {
         try {
             ResultSet rs = FreeBuild.getSql().getResult("SELECT level FROM genbase WHERE uuid = '" + uuid + "'");
@@ -164,6 +174,30 @@ public class SQLCreate {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    public static Integer getUpgrade(UUID uuid) {
+        try {
+            ResultSet rs = FreeBuild.getSql().getResult("SELECT upgrade FROM genbase WHERE uuid = '" + uuid + "'");
+            if (rs.next()) {
+                return rs.getInt("upgrade");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public static Double getFuel(UUID uuid) {
+        try {
+            ResultSet rs = FreeBuild.getSql().getResult("SELECT fuel FROM genbase WHERE uuid = '" + uuid + "'");
+            if (rs.next()) {
+                return rs.getDouble("fuel");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1.0;
     }
 
 }

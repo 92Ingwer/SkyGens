@@ -10,13 +10,17 @@ public class GenerationBaseObject {
     private double y;
     private double z;
     private int level;
+    private int upgrade;
+    private double fuel;
 
     public static final HashMap<Player,GenerationBaseObject> generationBaseObjectMap = new HashMap<>();
-    public GenerationBaseObject(double x, double y, double z, int level) {
+    public GenerationBaseObject(double x, double y, double z, int level, int upgrade, double fuel) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.level = level;
+        this.upgrade = upgrade;
+        this.fuel = fuel;
     }
     public double getX() {
         return x;
@@ -41,6 +45,18 @@ public class GenerationBaseObject {
     }
     public void setLevel(int level) {
         this.level = level;
+    }
+    public void setUpgrade(int upgrade) {
+        this.upgrade = upgrade;
+    }
+    public int getUpgrade() {
+        return upgrade;
+    }
+    public void setFuel(double fuel) {
+        this.fuel = fuel;
+    }
+    public double getFuel() {
+        return fuel;
     }
 
 }

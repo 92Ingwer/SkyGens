@@ -3,42 +3,49 @@ package org.kim.freeBuild.enums;
 import org.bukkit.Material;
 
 public enum MineralsEnum {
-    COAL(Material.COAL_ORE, 1,1),
-    DEEPSLATE_COAL(Material.DEEPSLATE_COAL_ORE, 2,2),
-    IRON(Material.IRON_ORE, 2,3),
-    DEEPSLATE_IRON(Material.DEEPSLATE_IRON_ORE, 3,4),
-    COPPER(Material.COPPER_ORE, 2,5),
-    DEEPSLATE_COPPER(Material.DEEPSLATE_COPPER_ORE, 3,6),
-    GOLD(Material.GOLD_ORE, 3,7),
-    DEEPSLATE_GOLD(Material.DEEPSLATE_GOLD_ORE, 4,8),
-    REDSTONE(Material.REDSTONE_ORE, 2,9),
-    DEEPSLATE_REDSTONE(Material.DEEPSLATE_REDSTONE_ORE, 3,10),
-    LAPIS(Material.LAPIS_ORE, 2,11),
-    DEEPSLATE_LAPIS(Material.DEEPSLATE_LAPIS_ORE, 3,12),
-    DIAMOND(Material.DIAMOND_ORE, 5,13),
-    DEEPSLATE_DIAMOND(Material.DEEPSLATE_DIAMOND_ORE, 6,14),
-    EMERALD(Material.EMERALD_ORE, 4,15),
-    DEEPSLATE_EMERALD(Material.DEEPSLATE_EMERALD_ORE, 5,16),
-    NETHER_QUARTZ(Material.NETHER_QUARTZ_ORE, 1,17),
-    NETHER_GOLD(Material.NETHER_GOLD_ORE, 3,18);
+    COAL(Material.COAL_ORE, 20, 1,2),
+    DEEPSLATE_COAL(Material.DEEPSLATE_COAL_ORE, 40, 2,4),
+    IRON(Material.IRON_ORE, 50, 3,8),
+    DEEPSLATE_IRON(Material.DEEPSLATE_IRON_ORE, 60, 4,16),
+    COPPER(Material.COPPER_ORE, 70, 5,20),
+    DEEPSLATE_COPPER(Material.DEEPSLATE_COPPER_ORE, 80, 6,22),
+    GOLD(Material.GOLD_ORE, 100, 7,24),
+    DEEPSLATE_GOLD(Material.DEEPSLATE_GOLD_ORE, 120, 8,26),
+    REDSTONE(Material.REDSTONE_ORE, 150, 9,28),
+    DEEPSLATE_REDSTONE(Material.DEEPSLATE_REDSTONE_ORE, 180, 10,30),
+    LAPIS(Material.LAPIS_ORE, 200, 11,32),
+    DEEPSLATE_LAPIS(Material.DEEPSLATE_LAPIS_ORE, 240, 12,34),
+    DIAMOND(Material.DIAMOND_ORE, 300, 13,36),
+    DEEPSLATE_DIAMOND(Material.DEEPSLATE_DIAMOND_ORE, 350, 14,38),
+    EMERALD(Material.EMERALD_ORE, 400, 15,40),
+    DEEPSLATE_EMERALD(Material.DEEPSLATE_EMERALD_ORE, 450, 16,42),
+    NETHER_QUARTZ(Material.NETHER_QUARTZ_ORE, 250, 17,44),
+    NETHER_GOLD(Material.NETHER_GOLD_ORE, 300, 18,46);
 
 
     final Material material;
     final int hearts;
     final int level;
+    final double usage;
 
-    MineralsEnum(Material material, int hearts, int level) {
+    MineralsEnum(Material material, int hearts, int level, double usage) {
         this.material = material;
         this.hearts = hearts;
         this.level = level;
+        this.usage = usage;
     }
 
     public Material getMaterial3() {
         return material;
     }
+    public double getUsage() {
+        return usage;
+    }
+
     public int getHearts3() {
         return hearts;
     }
+
     public static int getHeart(Material material) {
         for (MineralsEnum mineral : values()) {
             if (mineral.getMaterial3() == material) {
@@ -47,15 +54,25 @@ public enum MineralsEnum {
         }
         return -1;
     }
+
     public int getLevel() {
         return level;
     }
+
     public static Material getMaterial(int level) {
-        for(MineralsEnum mineral : values()) {
-            if(mineral.getLevel() == level) {
+        for (MineralsEnum mineral : values()) {
+            if (mineral.getLevel() == level) {
                 return mineral.getMaterial3();
             }
         }
         return Material.AIR;
+    }
+    public static double getUsage(int level) {
+        for (MineralsEnum mineral : values()) {
+            if (mineral.getLevel() == level) {
+                return mineral.getUsage();
+            }
+        }
+        return 0;
     }
 }

@@ -23,7 +23,7 @@ public class OnJoinListener implements Listener {
                 PlayerBaseObject.playerBaseObjectMap.put(player, playerBaseObject);
             }
             if (!GenerationBaseObject.generationBaseObjectMap.containsKey(player)) {
-                GenerationBaseObject generationBaseObject = new GenerationBaseObject(-1, -1, -1, 0);
+                GenerationBaseObject generationBaseObject = new GenerationBaseObject(-1, -1, -1, 0,-1,0);
                 GenerationBaseObject.generationBaseObjectMap.put(player, generationBaseObject);
             }
             if (!userExists) {
@@ -32,7 +32,7 @@ public class OnJoinListener implements Listener {
                 PlayerBaseObject playerBaseObject = new PlayerBaseObject(SQLCreate.getBankMoney(player.getUniqueId()), SQLCreate.getIslandname(player.getUniqueId()), SQLCreate.getIslandid(player.getUniqueId()), SQLCreate.getWorldName(player.getUniqueId()), SQLCreate.getX(player.getUniqueId()), SQLCreate.getY(player.getUniqueId()), SQLCreate.getZ(player.getUniqueId()), SQLCreate.getAmountofGens(player.getUniqueId()));
                 PlayerBaseObject.playerBaseObjectMap.put(player, playerBaseObject);
 
-                GenerationBaseObject generationBaseObject = new GenerationBaseObject(SQLCreate.getXG(player.getUniqueId()), SQLCreate.getYG(player.getUniqueId()), SQLCreate.getZG(player.getUniqueId()), SQLCreate.getLevel(player.getUniqueId()));
+                GenerationBaseObject generationBaseObject = new GenerationBaseObject(SQLCreate.getXG(player.getUniqueId()), SQLCreate.getYG(player.getUniqueId()), SQLCreate.getZG(player.getUniqueId()), SQLCreate.getLevel(player.getUniqueId()),SQLCreate.getUpgrade(player.getUniqueId()),SQLCreate.getFuel(player.getUniqueId()));
                 GenerationBaseObject.generationBaseObjectMap.put(player, generationBaseObject);
             }
         });

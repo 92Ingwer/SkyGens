@@ -55,7 +55,7 @@ public class CreateIslandCommand implements CommandExecutor {
                 PlayerBaseObject.playerBaseObjectMap.put(p, playerBaseObject);
                 Location islandCenter = new Location(Bukkit.getWorld("InselWelt"), (finalIslandId * 4000) + 9, 179, (finalIslandId * 4000) + 8);
                 //genbase erstellen
-                GenerationBaseObject generationBaseObject = new GenerationBaseObject(-1,-1,-1,1);
+                GenerationBaseObject generationBaseObject = new GenerationBaseObject(-1,-1,-1,1,0,0);
                 GenerationBaseObject.generationBaseObjectMap.put(p, generationBaseObject);
                 // Schematic laden
                 File schematicFile = new File(Bukkit.getServer().getPluginManager().getPlugin("WorldEdit").getDataFolder(), "schematics/inselperfect.schem");

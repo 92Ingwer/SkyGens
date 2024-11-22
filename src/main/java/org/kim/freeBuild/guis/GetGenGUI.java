@@ -27,7 +27,7 @@ public class GetGenGUI implements Listener {
     }
 
     public static void openInventory(Player p) {
-        Inventory inventory = new InventoryBuilder("Get-Generator - Inventory", 3 * 9, 1).aItem(13, Material.CRAFTING_TABLE, MiniMessage.miniMessage().deserialize("<b><gradient:#F5ECD6:#DB9BE9>Generator </gradient></b>"), List.of(Component.text("§fSetze deinen Generator!"))).build();
+        Inventory inventory = new InventoryBuilder("Get-Generator - Inventory", 3 * 9, 1).aItem(13, Material.BEDROCK, MiniMessage.miniMessage().deserialize("<b><gradient:#F5ECD6:#DB9BE9>Generator </gradient></b>"), List.of(Component.text("§fSetze deinen Generator!"))).build();
         p.openInventory(inventory);
     }
 }
