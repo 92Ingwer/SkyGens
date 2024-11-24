@@ -7,3 +7,5 @@ commands:
   createisland:
   istp:
   getgen:
+  sell:
+  money:
