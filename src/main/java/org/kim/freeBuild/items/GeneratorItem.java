@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GeneratorItem {
 
-    public static ItemStack getItem() {
+    public static ItemStack getGen() {
         ItemStack item = new ItemBuilder(Material.BEDROCK)
                 .name(MiniMessage.miniMessage().deserialize("<b><gradient:#F5ECD6:#DB9BE9>Generator </gradient></b>"))
                 .lore(List.of(Component.text("§fSetze deinen Generator!")))

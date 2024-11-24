@@ -19,7 +19,7 @@ public class PlaceGenEvent implements Listener {
         Player p = event.getPlayer();
         Action action = event.getAction();
         Block b = event.getClickedBlock();
-        if (action == Action.RIGHT_CLICK_BLOCK && p.getItemInHand().equals(GeneratorItem.getItem())) {
+        if (action == Action.RIGHT_CLICK_BLOCK && p.getItemInHand().equals(GeneratorItem.getGen())) {
             event.setCancelled(true);
             Location loc = b.getLocation().add(0, 1, 0);
             Block b2 = loc.getBlock();

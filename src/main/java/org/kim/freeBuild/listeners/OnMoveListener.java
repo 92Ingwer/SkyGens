@@ -14,16 +14,18 @@ public class OnMoveListener implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         Player p = e.getPlayer();
-        if (!IslandService.islandBeAllowedToMove.containsKey(p)) {
-            Location l = e.getFrom();
-            PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(p);
-            cancelMove(e, p, playerBaseObject, l);
-        } else {
-            Player t = IslandService.islandBeAllowedToMove.get(p);
-            PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(t);
-            Location l = e.getFrom();
-            cancelMove(e, p, playerBaseObject, l);
+        if (!p.isOp()) {
+            if (!IslandService.islandBeAllowedToMove.containsKey(p)) {
+                Location l = e.getFrom();
+                PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(p);
+                cancelMove(e, p, playerBaseObject, l);
+            } else {
+                Player t = IslandService.islandBeAllowedToMove.get(p);
+                PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(t);
+                Location l = e.getFrom();
+                cancelMove(e, p, playerBaseObject, l);
 
+            }
         }
     }
 

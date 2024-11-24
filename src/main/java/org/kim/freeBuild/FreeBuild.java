@@ -2,13 +2,12 @@ package org.kim.freeBuild;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.kim.freeBuild.commands.CreateIslandCommand;
-import org.kim.freeBuild.commands.GetGenCommand;
-import org.kim.freeBuild.commands.IslandTPCommand;
+import org.kim.freeBuild.commands.*;
 import org.kim.freeBuild.guis.EnergyGenGUI;
 import org.kim.freeBuild.guis.GenGUI;
 import org.kim.freeBuild.guis.GetGenGUI;
 import org.kim.freeBuild.listeners.*;
+import org.kim.freeBuild.schedulers.TenSecond;
 import org.kim.freeBuild.sql.SQL;
 import org.kim.freeBuild.sql.SQLCreate;
 
@@ -33,6 +32,11 @@ public final class FreeBuild extends JavaPlugin {
         this.getCommand("createisland").setExecutor(new CreateIslandCommand());
         this.getCommand("istp").setExecutor(new IslandTPCommand());
         this.getCommand("getgen").setExecutor(new GetGenCommand());
+        this.getCommand("sell").setExecutor(new SellCommand());
+        this.getCommand("money").setExecutor(new MoneyCommand());
+
+        //schedulers
+        TenSecond.tenSecondTimer();
     }
 
     @Override

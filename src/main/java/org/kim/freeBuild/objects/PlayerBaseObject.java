@@ -16,7 +16,7 @@ public class PlayerBaseObject {
     private double y;
     private double z;
     private int amountofGens;
-    public static final HashMap<Player, PlayerBaseObject> playerBaseObjectMap = new HashMap<Player,PlayerBaseObject>();
+    public static final HashMap<Player, PlayerBaseObject> playerBaseObjectMap = new HashMap<>();
     public PlayerBaseObject( int bankmoney, String islandname, int islandid,String world, double x, double y, double z, int amountofGens) {
         this.bankmoney = bankmoney;
         this.islandname = islandname;
@@ -53,5 +53,8 @@ public class PlayerBaseObject {
     }
     public void setAmountofGens(int amountofGens) {
         this.amountofGens = amountofGens;
+    }
+    public void setBankmoney(int bankmoney) {
+        this.bankmoney = bankmoney;
     }
 }

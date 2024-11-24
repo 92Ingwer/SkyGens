@@ -2,7 +2,6 @@ package org.kim.freeBuild.guis;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
-import org.bukkit.entity.Panda;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,8 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.kim.freeBuild.enums.FuelEnum;
 import org.kim.freeBuild.objects.GenerationBaseObject;
 import org.kim.freeBuild.utils.InventoryBuilder;
-
-import java.util.Objects;
 
 public class EnergyGenGUI implements Listener {
     @EventHandler

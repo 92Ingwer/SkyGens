@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.kim.freeBuild.enums.MineralsEnum;
 import org.kim.freeBuild.items.GeneratorItem;
 import org.kim.freeBuild.objects.GenerationBaseObject;
+import org.kim.freeBuild.services.GenerationService;
 
 public class GenMethods {
     public static boolean isBlockAnOre(Block block) {
@@ -32,9 +33,9 @@ public class GenMethods {
         generationBaseObject.setZ(-1);
         GenerationBaseObject.generationBaseObjectMap.put(p, generationBaseObject);
         b.setType(Material.AIR);
-        p.getInventory().addItem(GeneratorItem.getItem());
+        p.getInventory().addItem(GeneratorItem.getGen());
         createExplosion(b);
-        p.sendMessage("Erfolgreich abgebaut!");
+        GenerationService.brokenGenObjects.remove(p);
     }
 
     public static void createExplosion(Block b) {

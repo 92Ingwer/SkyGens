@@ -20,7 +20,7 @@ public class GetGenGUI implements Listener {
         if (e.getView().title().equals(Component.text("Get-Generator - Inventory")) && e.getRawSlot() < e.getView().getTopInventory().getSize()) {
             e.setCancelled(true);
             if (e.getSlot() == 13) {
-                p.getInventory().addItem(GeneratorItem.getItem());
+                p.getInventory().addItem(GeneratorItem.getGen());
                 p.closeInventory();
             }
         }

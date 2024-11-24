@@ -54,6 +54,14 @@ public enum MineralsEnum {
         }
         return -1;
     }
+    public static int getHeart(int level) {
+        for (MineralsEnum mineral : values()) {
+            if (mineral.getLevel() == level) {
+                return mineral.getHearts3();
+            }
+        }
+        return -1;
+    }
 
     public int getLevel() {
         return level;
