@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
@@ -22,11 +23,14 @@ public class BrokenGenObject {
     private Player p;
     private GenerationBaseObject generationBaseObject;
     private TextDisplay textDisplay;
-    public BrokenGenObject(int hearts, Location loc, Player p, GenerationBaseObject generationBaseObject) {
-        this.hearts = hearts;
+    private AutomaticChestObject automaticChestObject;
+    
+    public BrokenGenObject(int hearts, Location loc, Player p, GenerationBaseObject generationBaseObject, AutomaticChestObject automaticChestObject) {
+        this.hearts = (hearts * (100 - 5 * generationBaseObject.getUpgrade())) / 100;
         this.loc = new Location(loc.getWorld(),loc.getX()+0.5,loc.getY()+1.25,loc.getZ()+0.5);
         this.p = p;
         this.generationBaseObject = generationBaseObject;
+        this.automaticChestObject = automaticChestObject;
     }
     public int getHearts() {
         return hearts;
@@ -55,7 +59,13 @@ public class BrokenGenObject {
                 return;
             }
             ItemStack item = GenItemEnum.getItem(level);
-            loc.getWorld().dropItemNaturally(loc, item);
+            if(automaticChestObject.getX() == -1) {
+                loc.getWorld().dropItemNaturally(loc, item);
+            } else {
+                Location chestLoc = automaticChestObject.getChest().getLocation();
+                Chest chest = (Chest) chestLoc.getBlock().getState();
+                chest.getInventory().addItem(item);
+            }
             BreakGenListener.useFuel(generationBaseObject,p);
         }
     }

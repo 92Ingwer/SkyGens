@@ -10,7 +10,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.kim.freeBuild.enums.MineralsEnum;
 import org.kim.freeBuild.guis.GenGUI;
-import org.kim.freeBuild.items.GeneratorItem;
+import org.kim.freeBuild.items.GeneratorItems;
 import org.kim.freeBuild.objects.GenerationBaseObject;
 
 public class PlaceGenEvent implements Listener {
@@ -19,7 +19,7 @@ public class PlaceGenEvent implements Listener {
         Player p = event.getPlayer();
         Action action = event.getAction();
         Block b = event.getClickedBlock();
-        if (action == Action.RIGHT_CLICK_BLOCK && p.getItemInHand().equals(GeneratorItem.getGen())) {
+        if (action == Action.RIGHT_CLICK_BLOCK && p.getItemInHand().equals(GeneratorItems.getGen())) {
             event.setCancelled(true);
             Location loc = b.getLocation().add(0, 1, 0);
             Block b2 = loc.getBlock();

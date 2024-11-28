@@ -1,6 +1,8 @@
 package org.kim.freeBuild.objects;
 
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -57,6 +59,10 @@ public class GenerationBaseObject {
     }
     public double getFuel() {
         return fuel;
+    }
+    public Location getLocation() {
+        Location loc = new Location(Bukkit.getWorld("InselWelt"),getX(),getY(),getZ());
+        return loc;
     }
 
 }

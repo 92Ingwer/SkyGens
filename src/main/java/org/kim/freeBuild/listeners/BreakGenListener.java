@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.kim.freeBuild.enums.MineralsEnum;
 import org.kim.freeBuild.methods.GenMethods;
+import org.kim.freeBuild.objects.AutomaticChestObject;
 import org.kim.freeBuild.objects.BrokenGenObject;
 import org.kim.freeBuild.objects.GenerationBaseObject;
 import org.kim.freeBuild.services.GenerationService;
@@ -18,6 +19,7 @@ public class BreakGenListener implements Listener {
     public void onBlockBreak(BlockBreakEvent e) {
         Player p = e.getPlayer();
         Location l = e.getBlock().getLocation();
+        AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p);
         GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
         int level = generationBaseObject.getLevel();
         Location genLoc = new Location(Bukkit.getWorld("InselWelt"),generationBaseObject.getX(),generationBaseObject.getY(),generationBaseObject.getZ());
@@ -25,7 +27,7 @@ public class BreakGenListener implements Listener {
         if(genLoc.equals(l)) {
             e.setCancelled(true);
             if(!GenerationService.brokenGenObjects.containsKey(p)) {
-                BrokenGenObject brokenGenObject = new BrokenGenObject(hearts,genLoc,p,generationBaseObject);
+                BrokenGenObject brokenGenObject = new BrokenGenObject(hearts,genLoc,p,generationBaseObject,automaticChestObject);
                 GenerationService.brokenGenObjects.put(p,brokenGenObject);
                 int heartsleft = brokenGenObject.getHearts()-1;
                 brokenGenObject.setHearts(heartsleft);

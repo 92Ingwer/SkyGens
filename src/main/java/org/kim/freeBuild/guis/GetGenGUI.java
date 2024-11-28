@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.kim.freeBuild.items.GeneratorItem;
+import org.kim.freeBuild.items.GeneratorItems;
 import org.kim.freeBuild.utils.InventoryBuilder;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class GetGenGUI implements Listener {
         if (e.getView().title().equals(Component.text("Get-Generator - Inventory")) && e.getRawSlot() < e.getView().getTopInventory().getSize()) {
             e.setCancelled(true);
             if (e.getSlot() == 13) {
-                p.getInventory().addItem(GeneratorItem.getGen());
+                p.getInventory().addItem(GeneratorItems.getGen());
                 p.closeInventory();
             }
         }

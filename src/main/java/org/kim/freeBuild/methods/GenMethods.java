@@ -9,7 +9,7 @@ import org.bukkit.entity.Explosive;
 import org.bukkit.entity.Panda;
 import org.bukkit.entity.Player;
 import org.kim.freeBuild.enums.MineralsEnum;
-import org.kim.freeBuild.items.GeneratorItem;
+import org.kim.freeBuild.items.GeneratorItems;
 import org.kim.freeBuild.objects.GenerationBaseObject;
 import org.kim.freeBuild.services.GenerationService;
 
@@ -33,7 +33,7 @@ public class GenMethods {
         generationBaseObject.setZ(-1);
         GenerationBaseObject.generationBaseObjectMap.put(p, generationBaseObject);
         b.setType(Material.AIR);
-        p.getInventory().addItem(GeneratorItem.getGen());
+        p.getInventory().addItem(GeneratorItems.getGen());
         createExplosion(b);
         GenerationService.brokenGenObjects.remove(p);
     }

@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.kim.freeBuild.FreeBuild;
+import org.kim.freeBuild.objects.AutomaticChestObject;
 import org.kim.freeBuild.objects.GenerationBaseObject;
 import org.kim.freeBuild.objects.PlayerBaseObject;
 
@@ -15,6 +16,7 @@ public class OnQuitListener implements Listener {
         Player player = event.getPlayer();
         PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(player);
         GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(player);
+        AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(player);
         //playerbase
         int bankmoney = playerBaseObject.getBankmoney();
         String islandname = playerBaseObject.getIslandname();
@@ -31,12 +33,17 @@ public class OnQuitListener implements Listener {
         int level = generationBaseObject.getLevel();
         int upgrade = generationBaseObject.getUpgrade();
         double fuel = generationBaseObject.getFuel();
+        //automaticchest
+        double xc = automaticChestObject.getX();
+        double yc = automaticChestObject.getY();
+        double zc = automaticChestObject.getZ();
         //rest
         String uuid = player.getUniqueId().toString();
-        updateDB(bankmoney,islandname,islandid,world,x,y,z,uuid,amountofgens);
-        updateDB2(xg,yg,zg,level,uuid,upgrade,fuel);
+        updatePlayerBase(bankmoney,islandname,islandid,world,x,y,z,uuid,amountofgens);
+        updateGenBase(xg,yg,zg,level,uuid,upgrade,fuel);
+        updateAutomatiCChest(xc,yc,zc,uuid);
     }
-    public static void updateDB(int bankmoney, String islandname, int islandid, String world, double x, double y, double z, String uuid, int amountofgens) {
+    public static void updatePlayerBase(int bankmoney, String islandname, int islandid, String world, double x, double y, double z, String uuid, int amountofgens) {
         Bukkit.getScheduler().runTaskAsynchronously(FreeBuild.getInstance(), () -> {
             //playerbase
             FreeBuild.getSql().update("UPDATE playerbase set bankmoney = '" + bankmoney + "' WHERE uuid = '" + uuid + "'");
@@ -49,7 +56,7 @@ public class OnQuitListener implements Listener {
             FreeBuild.getSql().update("UPDATE playerbase set amountofgens = '" + amountofgens + "' WHERE uuid = '" + uuid + "'");
         });
     }
-    public static void updateDB2(double xg, double yg, double zg, int level, String uuid,int upgrade, double fuel) {
+    public static void updateGenBase(double xg, double yg, double zg, int level, String uuid,int upgrade, double fuel) {
         Bukkit.getScheduler().runTaskAsynchronously(FreeBuild.getInstance(), () -> {
             //genbase
             FreeBuild.getSql().update("UPDATE genbase set x = '" + xg + "' WHERE uuid = '" + uuid + "'");
@@ -58,6 +65,13 @@ public class OnQuitListener implements Listener {
             FreeBuild.getSql().update("UPDATE genbase set level = '" + level + "' WHERE uuid = '" + uuid + "'");
             FreeBuild.getSql().update("UPDATE genbase set upgrade = '" + upgrade  + "' WHERE uuid = '" + uuid + "'");
             FreeBuild.getSql().update("UPDATE genbase set fuel = '" + fuel  + "' WHERE uuid = '" + uuid + "'");
+        });
+    }
+    public static void updateAutomatiCChest(double xc,double yc, double zc, String uuid) {
+        Bukkit.getScheduler().runTaskAsynchronously(FreeBuild.getInstance(), () -> {
+            FreeBuild.getSql().update("UPDATE upgrades set x = '" + xc + "' WHERE uuid = '" + uuid + "' AND upgradetype = 'chest'");
+            FreeBuild.getSql().update("UPDATE upgrades set y = '" + yc + "' WHERE uuid = '" + uuid + "' AND upgradetype = 'chest'");
+            FreeBuild.getSql().update("UPDATE upgrades set z = '" + zc + "' WHERE uuid = '" + uuid + "' AND upgradetype = 'chest'");
         });
     }
 }

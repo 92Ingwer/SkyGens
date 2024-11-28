@@ -7,6 +7,7 @@ import org.kim.freeBuild.guis.EnergyGenGUI;
 import org.kim.freeBuild.guis.GenGUI;
 import org.kim.freeBuild.guis.GetGenGUI;
 import org.kim.freeBuild.listeners.*;
+import org.kim.freeBuild.recipes.GenMechanicsRecipes;
 import org.kim.freeBuild.schedulers.TenSecond;
 import org.kim.freeBuild.sql.SQL;
 import org.kim.freeBuild.sql.SQLCreate;
@@ -20,6 +21,8 @@ public final class FreeBuild extends JavaPlugin {
         instance = this;
         sql = new SQL("localhost","FreeBuild","FreeBuild","/oq)yRWLXXVM/4as","true");
         initdb();
+
+        //listeners
         Bukkit.getPluginManager().registerEvents(new BreakGenListener(), this);
         Bukkit.getPluginManager().registerEvents(new OnJoinListener(),this);
         Bukkit.getPluginManager().registerEvents(new OnQuitListener(),this);
@@ -29,11 +32,19 @@ public final class FreeBuild extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlaceGenEvent(),this);
         Bukkit.getPluginManager().registerEvents(new GenGUI(),this);
         Bukkit.getPluginManager().registerEvents(new EnergyGenGUI(),this);
+        Bukkit.getPluginManager().registerEvents(new PlaceUpgraderListener(),this);
+        Bukkit.getPluginManager().registerEvents(new OpenAutomaticChestListener(), this);
+
+        //Commands
         this.getCommand("createisland").setExecutor(new CreateIslandCommand());
         this.getCommand("istp").setExecutor(new IslandTPCommand());
         this.getCommand("getgen").setExecutor(new GetGenCommand());
         this.getCommand("sell").setExecutor(new SellCommand());
         this.getCommand("money").setExecutor(new MoneyCommand());
+
+
+        //Recipes
+        GenMechanicsRecipes.ChestRecipe();
 
         //schedulers
         TenSecond.tenSecondTimer();

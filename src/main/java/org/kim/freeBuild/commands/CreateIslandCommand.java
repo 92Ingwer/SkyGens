@@ -51,7 +51,7 @@ public class CreateIslandCommand implements CommandExecutor {
             Bukkit.getScheduler().runTask(FreeBuild.getInstance(), () -> {
                 // Insel erstellen
                 PlayerBaseObject playerBaseObject = new PlayerBaseObject(0, strings[0], finalIslandId, "InselWelt",finalIslandId * 4000, 170, finalIslandId * 4000, 1);
-                OnQuitListener.updateDB(0, strings[0], finalIslandId, "InselWelt", finalIslandId * 4000, 170, finalIslandId * 4000, p.getUniqueId().toString(), 1);
+                OnQuitListener.updatePlayerBase(0, strings[0], finalIslandId, "InselWelt", finalIslandId * 4000, 170, finalIslandId * 4000, p.getUniqueId().toString(), 1);
                 PlayerBaseObject.playerBaseObjectMap.put(p, playerBaseObject);
                 Location islandCenter = new Location(Bukkit.getWorld("InselWelt"), (finalIslandId * 4000) + 9, 179, (finalIslandId * 4000) + 8);
                 //genbase erstellen
