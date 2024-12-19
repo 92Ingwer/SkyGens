@@ -39,18 +39,19 @@ repositories {
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT'
     compileOnly 'org.spigotmc:spigot-api:1.20.4-R0.1-SNAPSHOT'
-    // compileOnly 'com.onarandombox.multiversecore:Multiverse-Core:4.3.1'
-    // The Spigot API with no shadowing. Requires the OSS repo.
     compileOnly 'org.spigotmc:spigot:1.20.4-R0.1-SNAPSHOT'
-    // The full Spigot server with no shadowing. Requires mavenLocal.
     implementation 'org.json:json:20231013'
     implementation "org.hibernate.orm:hibernate-core:6.6.2.Final"
-    compileOnly 'com.sk89q.worldedit:worldedit-bukkit:7.3.8' // Ersetze die Version durch die neueste
+    compileOnly 'com.sk89q.worldedit:worldedit-bukkit:7.3.8'
 
     compileOnly('net.citizensnpcs:citizens-main:2.0.35-SNAPSHOT') {
         exclude group: '*', module: '*'
     }
-    // https://mvnrepository.com/artifact/com.sk89q.worldedit/worldedit-bukkit
+        compileOnly 'org.projectlombok:lombok:1.18.36'
+        annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+        testCompileOnly 'org.projectlombok:lombok:1.18.36'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.36'
 
 }
 

@@ -1,10 +1,12 @@
 package org.kim.freeBuild;
 
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.kim.freeBuild.commands.*;
 import org.kim.freeBuild.guis.EnergyGenGUI;
 import org.kim.freeBuild.guis.GenGUI;
+import org.kim.freeBuild.guis.GenSettingsGUI;
 import org.kim.freeBuild.guis.GetGenGUI;
 import org.kim.freeBuild.listeners.*;
 import org.kim.freeBuild.recipes.GenMechanicsRecipes;
@@ -13,7 +15,9 @@ import org.kim.freeBuild.sql.SQL;
 import org.kim.freeBuild.sql.SQLCreate;
 
 public final class FreeBuild extends JavaPlugin {
+    @Getter
     public static FreeBuild instance;
+    @Getter
     public static SQL sql;
 
     @Override
@@ -34,6 +38,10 @@ public final class FreeBuild extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new EnergyGenGUI(),this);
         Bukkit.getPluginManager().registerEvents(new PlaceUpgraderListener(),this);
         Bukkit.getPluginManager().registerEvents(new OpenAutomaticChestListener(), this);
+        Bukkit.getPluginManager().registerEvents(new GenSettingsGUI(), this);
+        Bukkit.getPluginManager().registerEvents(new BreakChestListener(), this);
+        Bukkit.getPluginManager().registerEvents(new CollectItemListener(),this );
+        Bukkit.getPluginManager().registerEvents(new OnIslandPvPEvent(), this);
 
         //Commands
         this.getCommand("createisland").setExecutor(new CreateIslandCommand());
@@ -41,10 +49,12 @@ public final class FreeBuild extends JavaPlugin {
         this.getCommand("getgen").setExecutor(new GetGenCommand());
         this.getCommand("sell").setExecutor(new SellCommand());
         this.getCommand("money").setExecutor(new MoneyCommand());
+        this.getCommand("giveitems").setExecutor(new GiveItemsCommand());
 
 
         //Recipes
         GenMechanicsRecipes.ChestRecipe();
+        GenMechanicsRecipes.DrillRecipe();
 
         //schedulers
         TenSecond.tenSecondTimer();
@@ -54,15 +64,9 @@ public final class FreeBuild extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
     }
-    public static FreeBuild getInstance() {
-        return instance;
-    }
 
     private void initdb() {
         sql.update("USE FreeBuild");
         SQLCreate.create();
-    }
-    public static SQL getSql() {
-        return sql;
     }
 }

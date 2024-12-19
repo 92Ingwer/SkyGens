@@ -26,22 +26,32 @@ public class BreakGenListener implements Listener {
         int hearts = MineralsEnum.getHeart(level);
         if(genLoc.equals(l)) {
             e.setCancelled(true);
-            if(!GenerationService.brokenGenObjects.containsKey(p)) {
-                BrokenGenObject brokenGenObject = new BrokenGenObject(hearts,genLoc,p,generationBaseObject,automaticChestObject);
-                GenerationService.brokenGenObjects.put(p,brokenGenObject);
-                int heartsleft = brokenGenObject.getHearts()-1;
-                brokenGenObject.setHearts(heartsleft);
-                GenerationService.brokenGenObjects.put(p,brokenGenObject);
-            } else {
-                BrokenGenObject brokenGenObject = GenerationService.brokenGenObjects.get(p);
-                int heartsleft = brokenGenObject.getHearts()-1;
-                brokenGenObject.setHearts(heartsleft);
-                if(heartsleft <= 0) {
-                    GenerationService.brokenGenObjects.remove(p);
-                    return;
-                }
-                GenerationService.brokenGenObjects.put(p,brokenGenObject);
+            breakGenMethod(generationBaseObject, automaticChestObject, p, genLoc, hearts);
+        }
+    }
+    public static void breakGen(GenerationBaseObject generationBaseObject,AutomaticChestObject automaticChestObject,Player p) {
+        int level = generationBaseObject.getLevel();
+        Location genLoc = new Location(Bukkit.getWorld("InselWelt"),generationBaseObject.getX(),generationBaseObject.getY(),generationBaseObject.getZ());
+        int hearts = MineralsEnum.getHeart(level);
+        breakGenMethod(generationBaseObject, automaticChestObject, p, genLoc, hearts);
+    }
+
+    public static void breakGenMethod(GenerationBaseObject generationBaseObject, AutomaticChestObject automaticChestObject, Player p, Location genLoc, int hearts) {
+        if(!GenerationService.brokenGenObjects.containsKey(p)) {
+            BrokenGenObject brokenGenObject = new BrokenGenObject(hearts,genLoc,p,generationBaseObject,automaticChestObject);
+            GenerationService.brokenGenObjects.put(p,brokenGenObject);
+            int heartsleft = brokenGenObject.getHearts()-1;
+            brokenGenObject.setHearts(heartsleft);
+            GenerationService.brokenGenObjects.put(p,brokenGenObject);
+        } else {
+            BrokenGenObject brokenGenObject = GenerationService.brokenGenObjects.get(p);
+            int heartsleft = brokenGenObject.getHearts()-1;
+            brokenGenObject.setHearts(heartsleft);
+            if(heartsleft <= 0) {
+                GenerationService.brokenGenObjects.remove(p);
+                return;
             }
+            GenerationService.brokenGenObjects.put(p,brokenGenObject);
         }
     }
 

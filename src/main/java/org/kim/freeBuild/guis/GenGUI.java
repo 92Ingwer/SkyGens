@@ -46,6 +46,9 @@ public class GenGUI implements Listener {
                 upgradeLevel(generationBaseObject,playerBaseObject,p);
                 return;
             }
+            if(e.getSlot() == 38) {
+                GenSettingsGUI.openInventory(p);
+            }
         }
     }
 
@@ -60,7 +63,7 @@ public class GenGUI implements Listener {
                 .aItem(11, Material.EMERALD, m("<gradient:#38FF4E:#038521>Gen - Upgrade</gradient>"), List.of(upgradeUnder10(generationBaseObject), m("<gradient:#38FF4E:#038521>Preis: " + priceUpgrade + "$</gradient>")))
                 .aItem(15, Material.FURNACE, m("<gradient:#4C4F4D:#C4C4C4>Energie</gradient>"), List.of(m("<gradient:#9BA99F:#C4C4C4>Energie: " + fuel + "J</gradient>"),m("<gradient:#9BA99F:#C4C4C4>Öffne das Energie-Menü</gradient>")))
                 .aItem(22, Material.NETHER_STAR, m("<gradient:#FAE1FF:#CB90C5>Level - Upgrade</gradient>"), List.of(m("<gradient:#FAE1FF:#CB90C5>Level: " + level + " --> " + (level + 1) + "</gradient>"), m("<gradient:#FAE1FF:#CB90C5>Preis: " + priceLevel + "$</gradient>"), readyForUpgrade(generationBaseObject)))
-                .aItem(38, Material.BEACON, m("<gradient:#8EEDFF:#7198FF>BOOSTER</gradient>"), List.of(m("<gradient:#8EEDFF:#7198FF>Öffne das Booster-Menü</gradient>")))
+                .aItem(38, Material.COMMAND_BLOCK, m("<gradient:#707070:#393939>Einstellungen</gradient>"), List.of(m("<gradient:#707070:#393939>Öffne die Einstellungen</gradient>")))
                 .aItem(42, Material.BARRIER, m("<gradient:#FF8E8E:#FF71C2>Generatoren Zerstörung</gradient>"), List.of(m("<gradient:#FF8E8E:#FF71C2>Zerstöre deinen Generator</gradient>")))
                 .build();
         setWhiteGlas(inventory);

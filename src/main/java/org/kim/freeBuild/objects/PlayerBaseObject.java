@@ -1,10 +1,15 @@
 package org.kim.freeBuild.objects;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
-import java.util.UUID;
 
+@Getter
+@Setter
 public class PlayerBaseObject {
 
 
@@ -17,7 +22,8 @@ public class PlayerBaseObject {
     private double z;
     private int amountofGens;
     public static final HashMap<Player, PlayerBaseObject> playerBaseObjectMap = new HashMap<>();
-    public PlayerBaseObject( int bankmoney, String islandname, int islandid,String world, double x, double y, double z, int amountofGens) {
+
+    public PlayerBaseObject(int bankmoney, String islandname, int islandid, String world, double x, double y, double z, int amountofGens) {
         this.bankmoney = bankmoney;
         this.islandname = islandname;
         this.islandid = islandid;
@@ -27,34 +33,9 @@ public class PlayerBaseObject {
         this.z = z;
         this.amountofGens = amountofGens;
     }
-    public int getBankmoney() {
-        return bankmoney;
-    }
-    public String getIslandname() {
-        return islandname;
-    }
-    public int getIslandid() {
-        return islandid;
-    }
-    public String getWorld() {
-        return world;
-    }
-    public double getX() {
-        return x;
-    }
-    public double getY() {
-        return y;
-    }
-    public double getZ() {
-        return z;
-    }
-    public int getAmountofGens() {
-        return amountofGens;
-    }
-    public void setAmountofGens(int amountofGens) {
-        this.amountofGens = amountofGens;
-    }
-    public void setBankmoney(int bankmoney) {
-        this.bankmoney = bankmoney;
+
+    public Location getLocation() {
+
+        return new Location(Bukkit.getWorld(world), getX(), getY(), getZ());
     }
 }

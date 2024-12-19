@@ -1,5 +1,6 @@
 package org.kim.freeBuild.objects;
 
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -9,6 +10,7 @@ import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.kim.freeBuild.enums.GenItemEnum;
 import org.kim.freeBuild.enums.MineralsEnum;
 import org.kim.freeBuild.listeners.BreakGenListener;
@@ -18,7 +20,9 @@ import org.kim.freeBuild.services.GenerationService;
 public class BrokenGenObject {
 
 
+    @Getter
     private int hearts;
+    @Getter
     private Location loc;
     private Player p;
     private GenerationBaseObject generationBaseObject;
@@ -32,12 +36,7 @@ public class BrokenGenObject {
         this.generationBaseObject = generationBaseObject;
         this.automaticChestObject = automaticChestObject;
     }
-    public int getHearts() {
-        return hearts;
-    }
-    public Location getLoc() {
-        return loc;
-    }
+
     public void setHearts(int hearts) {
         this.hearts = hearts;
         try {
@@ -49,6 +48,7 @@ public class BrokenGenObject {
         if(hearts <= 0) {
             textDisplay.remove();
             GenerationService.brokenGenObjects.remove(p);
+            GenerationService.brokedGenList.add(p);
             generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
             int level = generationBaseObject.getLevel();
             double fuel = generationBaseObject.getFuel();
@@ -59,12 +59,13 @@ public class BrokenGenObject {
                 return;
             }
             ItemStack item = GenItemEnum.getItem(level);
-            if(automaticChestObject.getX() == -1) {
+            if(automaticChestObject.getX() == -1 || !automaticChestObject.getSetting()) {
                 loc.getWorld().dropItemNaturally(loc, item);
             } else {
                 Location chestLoc = automaticChestObject.getChest().getLocation();
                 Chest chest = (Chest) chestLoc.getBlock().getState();
                 chest.getInventory().addItem(item);
+                GenMethods.moveItem(p);
             }
             BreakGenListener.useFuel(generationBaseObject,p);
         }

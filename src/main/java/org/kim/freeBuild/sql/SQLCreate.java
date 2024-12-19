@@ -19,6 +19,7 @@ public class SQLCreate {
             FreeBuild.getSql().update("INSERT INTO playerbase (uuid, bankmoney, islandname, islandid, world, x, y, z, amountofgens) VALUES ('" + uuid + "', '0', NULL, NULL, NULL, '-1', '-1', '-1','0')");
             FreeBuild.getSql().update("INSERT INTO genbase (uuid, x, y, z, level, upgrade, fuel) VALUES ('" + uuid + "', NULL, NULL, NULL, '0','-1','0')");
             FreeBuild.getSql().update("INSERT INTO upgrades (uuid, x, y, z, upgradetype) VALUES ('" + uuid + "', NULL, NULL, NULL, 'chest')");
+            FreeBuild.getSql().update("INSERT INTO upgrades (uuid, x, y, z, upgradetype) VALUES ('" + uuid + "', NULL, NULL, NULL, 'drill')");
         }
     }
 
@@ -227,6 +228,39 @@ public class SQLCreate {
     public static Double getChestZ(UUID uuid) {
         try {
             ResultSet rs = FreeBuild.getSql().getResult("SELECT z FROM upgrades WHERE uuid = '" + uuid + "' AND upgradetype = 'chest'");
+            if (rs.next()) {
+                return rs.getDouble("z");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1.0;
+    }
+    public static Double getDrilLX(UUID uuid) {
+        try {
+            ResultSet rs = FreeBuild.getSql().getResult("SELECT x FROM upgrades WHERE uuid = '" + uuid + "' AND upgradetype = 'drill'");
+            if (rs.next()) {
+                return rs.getDouble("x");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1.0;
+    }
+    public static Double getDrilLY(UUID uuid) {
+        try {
+            ResultSet rs = FreeBuild.getSql().getResult("SELECT y FROM upgrades WHERE uuid = '" + uuid + "' AND upgradetype = 'drill'");
+            if (rs.next()) {
+                return rs.getDouble("y");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1.0;
+    }
+    public static Double getDrilLZ(UUID uuid) {
+        try {
+            ResultSet rs = FreeBuild.getSql().getResult("SELECT z FROM upgrades WHERE uuid = '" + uuid + "' AND upgradetype = 'drill'");
             if (rs.next()) {
                 return rs.getDouble("z");
             }

@@ -37,7 +37,7 @@ public class OpenAutomaticChestListener implements Listener {
                 if (e.getSlot() == 26) {
                     chest.getBlock().setType(Material.AIR);
                     p.getInventory().addItem(GeneratorItems.getChest());
-                    AutomaticChestObject automaticChestObject = new AutomaticChestObject(-1.0, -1.0, -1.0, null);
+                    AutomaticChestObject automaticChestObject = new AutomaticChestObject(-1.0, -1.0, -1.0, null,true);
                     AutomaticChestObject.automaticChestObjectMap.put(p, automaticChestObject);
                     p.closeInventory();
                 }

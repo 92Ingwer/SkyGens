@@ -1,5 +1,6 @@
 package org.kim.freeBuild.objects;
 
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Chest;
@@ -9,26 +10,23 @@ import java.util.HashMap;
 
 public class AutomaticChestObject {
 
+    @Getter
     private double x;
+    @Getter
     private double y;
+    @Getter
     private double z;
+    @Getter
     private Chest chest;
+    private boolean setting;
 
     public static HashMap<Player, AutomaticChestObject> automaticChestObjectMap = new HashMap<Player, AutomaticChestObject>();
-    public AutomaticChestObject(Double x, Double y, Double z, Chest chest) {
+    public AutomaticChestObject(Double x, Double y, Double z, Chest chest, boolean setting) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.chest = chest;
-    }
-    public double getX() {
-        return x;
-    }
-    public double getY() {
-        return y;
-    }
-    public double getZ() {
-        return z;
+        this.setting = setting;
     }
 
     public Location getLocation() {
@@ -41,7 +39,11 @@ public class AutomaticChestObject {
         this.y = loc.getY();
         this.z = loc.getZ();
     }
-    public Chest getChest() {
-        return chest;
+
+    public boolean getSetting() {
+        return setting;
+    }
+    public void changeSetting() {
+        this.setting = !setting;
     }
 }

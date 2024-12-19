@@ -24,4 +24,11 @@ public class GeneratorItems {
                 .build();
         return item;
     }
+    public static ItemStack getDrill() {
+        ItemStack item = new ItemBuilder(Material.DISPENSER)
+                .name(MiniMessage.miniMessage().deserialize("Automatic - Drill"))
+                .lore(List.of(Component.text("§fSetze deinen Drill neben deinem Generator!")))
+                .build();
+        return item;
+    }
 }

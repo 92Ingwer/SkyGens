@@ -1,12 +1,15 @@
 package org.kim.freeBuild.objects;
 
-
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
+@Getter
+@Setter
 public class GenerationBaseObject {
     private double x;
     private double y;
@@ -24,45 +27,8 @@ public class GenerationBaseObject {
         this.upgrade = upgrade;
         this.fuel = fuel;
     }
-    public double getX() {
-        return x;
-    }
-    public double getY() {
-        return y;
-    }
-    public double getZ() {
-        return z;
-    }
-    public int getLevel() {
-        return level;
-    }
-    public void setX(double x) {
-        this.x = x;
-    }
-    public void setY(double y) {
-        this.y = y;
-    }
-    public void setZ(double z) {
-        this.z = z;
-    }
-    public void setLevel(int level) {
-        this.level = level;
-    }
-    public void setUpgrade(int upgrade) {
-        this.upgrade = upgrade;
-    }
-    public int getUpgrade() {
-        return upgrade;
-    }
-    public void setFuel(double fuel) {
-        this.fuel = fuel;
-    }
-    public double getFuel() {
-        return fuel;
-    }
     public Location getLocation() {
-        Location loc = new Location(Bukkit.getWorld("InselWelt"),getX(),getY(),getZ());
-        return loc;
+        return new Location(Bukkit.getWorld("InselWelt"),getX(),getY(),getZ());
     }
 
 }

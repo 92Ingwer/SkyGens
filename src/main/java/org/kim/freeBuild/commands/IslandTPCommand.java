@@ -1,23 +1,26 @@
 package org.kim.freeBuild.commands;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.jetbrains.annotations.NotNull;
 import org.kim.freeBuild.methods.CreateIslandMethods;
 import org.kim.freeBuild.objects.PlayerBaseObject;
 import org.kim.freeBuild.services.IslandService;
 
+
 public class IslandTPCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if(!(commandSender instanceof Player)) {
+        if(!(commandSender instanceof Player p)) {
             return false;
         }
-        Player p = (Player) commandSender;
+
         if(strings.length > 1) {
             p.sendMessage("§cUsage: /istp (Spieler)");
             return false;

@@ -21,4 +21,15 @@ public class GenMechanicsRecipes {
         recipe.setIngredient('C', Material.CHEST);
         FreeBuild.getInstance().getServer().addRecipe(recipe);
     }
+
+    public static void DrillRecipe() {
+        NamespacedKey key = new NamespacedKey(FreeBuild.getInstance(), "drill_level_0");
+        ItemStack item = GeneratorItems.getDrill();
+        ShapedRecipe recipe = new ShapedRecipe(key, item);
+        recipe.shape("ABA","ACA","AAA");
+        recipe.setIngredient('A',Material.COBBLESTONE);
+        recipe.setIngredient('B',new RecipeChoice.ExactChoice(GenItemEnum.getItem(9)));
+        recipe.setIngredient('C',Material.LAVA_BUCKET);
+        FreeBuild.getInstance().getServer().addRecipe(recipe);
+    }
 }
