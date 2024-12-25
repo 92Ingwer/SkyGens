@@ -32,10 +32,10 @@ public enum GenItemEnum {
 
 
 
-    private Material material;
-    private int price;
-    private int level;
-    private String name;
+    private final Material material;
+    private final int price;
+    private final int level;
+    private final String name;
 
     GenItemEnum(Material material, int level, int price, String name) {
         this.material = material;

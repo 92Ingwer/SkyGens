@@ -25,11 +25,12 @@ public class IslandTPCommand implements CommandExecutor {
             p.sendMessage("§cUsage: /istp (Spieler)");
             return false;
         }
-        if(!CreateIslandMethods.hasPlayerIsland(p)) {
-            p.sendMessage("Hast keine Insel bro");
-            return false;
-        }
+
         if(strings.length == 0) {
+            if(!CreateIslandMethods.hasPlayerIsland(p)) {
+                p.sendMessage("Hast keine Insel bro");
+                return false;
+            }
             PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(p);
             Location loc = new Location(Bukkit.getWorld(playerBaseObject.getWorld()),playerBaseObject.getX(),playerBaseObject.getY(),playerBaseObject.getZ());
             p.teleport(loc);

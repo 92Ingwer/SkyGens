@@ -6,18 +6,12 @@
     </content>
   </component>
   <component name="FacetManager">
-    <facet type="hibernate" name="Hibernate">
-      <configuration>
-        <datasource-map />
-        <naming-strategy-map />
-        <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/../../src/main/resources/hibernate.cfg.xml" />
-      </configuration>
-    </facet>
     <facet type="minecraft" name="Minecraft">
       <configuration>
         <autoDetectTypes>
           <platformType>PAPER</platformType>
           <platformType>MCP</platformType>
+          <platformType>SPIGOT</platformType>
           <platformType>ADVENTURE</platformType>
         </autoDetectTypes>
         <projectReimportVersion>1</projectReimportVersion>

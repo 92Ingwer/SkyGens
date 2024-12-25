@@ -11,10 +11,9 @@ import org.kim.freeBuild.methods.CreateIslandMethods;
 public class GetGenCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if(!(commandSender instanceof Player)) {
+        if(!(commandSender instanceof Player p)) {
             return false;
         }
-        Player p = (Player) commandSender;
         if(strings.length != 0) {
             return false;
         }

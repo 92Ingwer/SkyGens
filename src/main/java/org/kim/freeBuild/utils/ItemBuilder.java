@@ -8,8 +8,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.List;
 
 public class ItemBuilder {
-    private ItemStack item;
-    private ItemMeta meta;
+    private final ItemStack item;
+    private final ItemMeta meta;
 
     public ItemBuilder(Material material) {
         item = new ItemStack(material, 1);

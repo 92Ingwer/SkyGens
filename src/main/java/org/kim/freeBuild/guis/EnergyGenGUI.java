@@ -13,6 +13,14 @@ import org.kim.freeBuild.objects.GenerationBaseObject;
 import org.kim.freeBuild.utils.InventoryBuilder;
 
 public class EnergyGenGUI implements Listener {
+    /**
+     * Handles the player's interaction with a custom inventory GUI titled "Energie - Menü".
+     * This method ensures proper functionality of the energy management system by processing the
+     * placement and retrieval of fuel items in the designated inventory slots and updating the
+     * player's corresponding fuel levels accordingly.
+     *
+     * @param e the InventoryClickEvent triggered when a player interacts with an inventory
+     */
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();

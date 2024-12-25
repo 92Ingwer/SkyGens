@@ -48,7 +48,7 @@ public class OnQuitListener implements Listener {
         updatePlayerBase(bankmoney,islandname,islandid,world,x,y,z,uuid,amountofgens);
         updateGenBase(xg,yg,zg,level,uuid,upgrade,fuel);
         updateAutomatiCChest(xc,yc,zc,uuid);
-        updateAutomaticDrill(xd,yg,zd,uuid);
+        updateAutomaticDrill(xd,yd,zd,uuid);
     }
     public static void updatePlayerBase(int bankmoney, String islandname, int islandid, String world, double x, double y, double z, String uuid, int amountofgens) {
         Bukkit.getScheduler().runTaskAsynchronously(FreeBuild.getInstance(), () -> {

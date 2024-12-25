@@ -19,12 +19,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CreateIslandCommand implements CommandExecutor {
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (!(commandSender instanceof Player)) {
+        if (!(commandSender instanceof Player p)) {
             return false;
         }
-        Player p = (Player) commandSender;
         if (strings.length != 1) {
             p.sendMessage("§cUsage: /createisland <Inselname>");
             return false;

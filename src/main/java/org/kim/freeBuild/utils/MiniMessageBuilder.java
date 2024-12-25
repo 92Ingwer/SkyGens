@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class MiniMessageBuilder {
-    private Component component;
+    private final Component component;
     public MiniMessageBuilder(String input) {
         this.component = MiniMessage.miniMessage().deserialize(input);
     }

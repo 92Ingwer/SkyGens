@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class InventoryBuilder {
-    private Inventory inventory;
+    private final Inventory inventory;
 
     public InventoryBuilder(String minimessage, int size, int grayglas) {
         Component title = new MiniMessageBuilder(minimessage).get();

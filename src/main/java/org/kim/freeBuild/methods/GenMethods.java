@@ -82,7 +82,7 @@ public class GenMethods {
             );
         });
         new BukkitRunnable() {
-            Location current = end.clone();
+            final Location current = end.clone();
             double traveled = 0;
 
             @Override

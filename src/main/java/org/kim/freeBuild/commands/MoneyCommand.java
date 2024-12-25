@@ -10,10 +10,9 @@ import org.kim.freeBuild.objects.PlayerBaseObject;
 public class MoneyCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if(!(commandSender instanceof Player)) {
+        if(!(commandSender instanceof Player p)) {
             return false;
         }
-        Player p = (Player) commandSender;
         if(strings.length != 0) {
             p.sendMessage("§cUsage: Verwende /money");
             return false;

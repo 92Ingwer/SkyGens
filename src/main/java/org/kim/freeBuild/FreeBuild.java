@@ -4,15 +4,14 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.kim.freeBuild.commands.*;
-import org.kim.freeBuild.guis.EnergyGenGUI;
-import org.kim.freeBuild.guis.GenGUI;
-import org.kim.freeBuild.guis.GenSettingsGUI;
-import org.kim.freeBuild.guis.GetGenGUI;
+import org.kim.freeBuild.guis.*;
 import org.kim.freeBuild.listeners.*;
 import org.kim.freeBuild.recipes.GenMechanicsRecipes;
 import org.kim.freeBuild.schedulers.TenSecond;
 import org.kim.freeBuild.sql.SQL;
 import org.kim.freeBuild.sql.SQLCreate;
+
+import java.security.cert.Extension;
 
 public final class FreeBuild extends JavaPlugin {
     @Getter
@@ -42,6 +41,9 @@ public final class FreeBuild extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new BreakChestListener(), this);
         Bukkit.getPluginManager().registerEvents(new CollectItemListener(),this );
         Bukkit.getPluginManager().registerEvents(new OnIslandPvPEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new BreakDrillListener(),this);
+        Bukkit.getPluginManager().registerEvents(new BlockExplosiveEvent(),this);
+        Bukkit.getPluginManager().registerEvents(new DrillGui(),this);
 
         //Commands
         this.getCommand("createisland").setExecutor(new CreateIslandCommand());

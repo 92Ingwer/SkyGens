@@ -5,13 +5,18 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.block.Dispenser;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
 import org.joml.AxisAngle4f;
@@ -20,7 +25,6 @@ import org.kim.freeBuild.FreeBuild;
 import org.kim.freeBuild.items.GeneratorItems;
 import org.kim.freeBuild.objects.AutomaticChestObject;
 import org.kim.freeBuild.objects.AutomaticDrillObject;
-import org.kim.freeBuild.objects.BrokenGenObject;
 import org.kim.freeBuild.objects.GenerationBaseObject;
 import org.kim.freeBuild.services.GenerationService;
 import org.kim.freeBuild.utils.ItemBuilder;
@@ -29,7 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlaceUpgraderListener implements Listener {
-    static int time = 0;
 
     @EventHandler
     public void onPlaceUpgrader(BlockPlaceEvent e) {
@@ -61,9 +64,8 @@ public class PlaceUpgraderListener implements Listener {
             locationList.add(loc.add(0.5, 0.5, 0.5));
             locationList.add(generationBaseObject.getLocation().add(0.5, 0.5, 0.5));
             GenerationService.locationForChestParticle.put(p, locationList);
-            drawParticleLine(p);
+            drawParticleChest(p);
         }
-
         //DRill placen
         if (item.equals(GeneratorItems.getDrill())) {
             if (automaticDrillObject.getX() != -1.0) {
@@ -77,121 +79,136 @@ public class PlaceUpgraderListener implements Listener {
                 p.sendMessage("Dein Drill muss 2 blöcke entfernt sein!");
                 return;
             }
-            AutomaticDrillObject automaticDrillObjectNew = new AutomaticDrillObject(loc.getX(), loc.getY(), loc.getZ(), true, 0);
+            Dispenser dispenser = (Dispenser) b.getState();
+            AutomaticDrillObject automaticDrillObjectNew = new AutomaticDrillObject(loc.getX(), loc.getY(), loc.getZ(), dispenser, true, 0);
             AutomaticDrillObject.automaticDrillObject.put(p, automaticDrillObjectNew);
             List<Location> locationList = new ArrayList<>();
             locationList.add(loc.add(1, 1, 1));
             locationList.add(generationBaseObject.getLocation().add(0.5, 0.5, 0.5));
             GenerationService.locationForDrillParticle.put(p, locationList);
-            drawParticleDrill(p, locationList.getFirst(), locationList.getLast());
+            spawnDrill(p);
         }
 
     }
 
 
-    public static void drawParticleLine(Player p) {
-        Bukkit.getScheduler().runTaskTimer(FreeBuild.getInstance(), () -> {
-            List<Location> locationList = GenerationService.locationForChestParticle.get(p);
-            Location start = locationList.get(0);
-            Location end = locationList.get(1);
-            AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p);
-
-            if (!Bukkit.getOnlinePlayers().contains(p) || automaticChestObject.getChest() == null || !automaticChestObject.getSetting()) {
-                return;
+    public static void drawParticleChest(Player p) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                List<Location> locationList = GenerationService.locationForChestParticle.get(p);
+                Location start = locationList.get(0);
+                Location end = locationList.get(1);
+                AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p);
+                if(!Bukkit.getOnlinePlayers().contains(p) || automaticChestObject.getChest() == null) {
+                    this.cancel();
+                    return;
+                }
+                if (!automaticChestObject.getSetting() || GenerationService.inactiveGenList.contains(p)) {
+                    return;
+                }
+                spawnParticle(start, end, Color.RED);
             }
-            spawnParticle(start, end, Color.RED);
-        }, 0L, 5L);
+        }.runTaskTimerAsynchronously(FreeBuild.getInstance(), 0, 5L);
     }
 
-    /**
-     * Draws a particle drill effect between two locations and handles the animation of a block display moving
-     * from the start location towards the end location. It also manages interactions with automatic drill,
-     * generation, and chest systems.
-     *
-     * @param p     The player for whom the particle drill is being created.
-     * @param start The starting location of the particle drill.
-     * @param end   The ending location of the particle drill.
-     */
-    public static void drawParticleDrill(Player p, Location start, Location end) {
-        AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p);
-        Location endNew = end.clone().add(-0.5, -0.5, -1);
-        // BlockDisplay erzeugen
+    public static void drawlParticleDrill(Player p) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                List<Location> locationList = GenerationService.locationForDrillParticle.get(p);
+                Location start = locationList.get(0);
+                Location end = locationList.get(1);
+                AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p);
+                if (!Bukkit.getOnlinePlayers().contains(p) || automaticDrillObject.getDispenser() == null) {
+                    this.cancel();
+                    return;
+                }
+                if (!automaticDrillObject.isSetting() || GenerationService.inactiveGenList.contains(p)) {
+                    return;
+                }
+                spawnParticle(start.clone().add(0.5, 0.5, 0), end, Color.AQUA);
+            }
+        }.runTaskTimerAsynchronously(FreeBuild.getInstance(), 0L, 5L);
+    }
+
+    public static void spawnDrill(Player p) {
+        List<Location> locationList = GenerationService.locationForDrillParticle.get(p);
+        Location start = locationList.get(0);
+        Location end = locationList.get(1);
         BlockDisplay blockDisplay = p.getWorld().spawn(start.add(-1, -1, 0), BlockDisplay.class, entity -> {
             entity.setBlock(Material.STONECUTTER.createBlockData());
             entity.setTransformation(new Transformation(new Vector3f(0, 1, 0), new AxisAngle4f(), new Vector3f(1, 1, 1), new AxisAngle4f((float) Math.toRadians(90), 1, 0, 0) // Rotation
             ));
         });
+        drawlParticleDrill(p);
+        moveDrill(p, blockDisplay, start, end);
+    }
 
-        // Partikelanzeige-Timer
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (!Bukkit.getOnlinePlayers().contains(p) || automaticDrillObject.getX() == -1 || !automaticDrillObject.isSetting()) {
-                    return;
-                }
-                spawnParticle(start.clone().add(0.5, 0.5, 0), end, Color.AQUA);
-            }
-        }.runTaskTimer(FreeBuild.getInstance(), 0L, 5L);
-
-        // Bewegungs-Logik
+    public static void moveDrill(Player p, BlockDisplay blockDisplay, Location start, Location end) {
         new BukkitRunnable() {
             private int currentStep = 0;
-
             @Override
             public void run() {
                 AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p);
-                GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
-                AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p);
-
-                if (!Bukkit.getOnlinePlayers().contains(p) || automaticDrillObject.getX() == -1 || !automaticDrillObject.isSetting()) {
-                    blockDisplay.setVisibleByDefault(false);
-                    return;
-                }
-               /* if (!p.isOnline() || automaticDrillObject.getX() == -1 || !automaticDrillObject.isSetting()) {
+                Location endNew = end.clone().add(-0.5, -0.5, -1);
+                if(!Bukkit.getOnlinePlayers().contains(p) || automaticDrillObject.getDispenser() == null) {
                     blockDisplay.remove();
                     this.cancel();
                     return;
-                }*/
+                }
+                if (!automaticDrillObject.isSetting() || GenerationService.inactiveGenList.contains(p)) {
+                    blockDisplay.teleport(start);
+                    blockDisplay.setVisibleByDefault(false);
+                    currentStep = 0;
+                    return;
+                }
                 blockDisplay.setVisibleByDefault(true);
-
-                // Bewegung zum Ziel
                 double stepSize = 0.2;
                 Vector direction = endNew.toVector().subtract(start.toVector()).normalize().multiply(stepSize);
                 Location currentLocation = start.clone().add(direction.clone().multiply(currentStep));
-
                 if (blockDisplay.getLocation().distance(endNew) > 0.66) {
                     blockDisplay.teleport(currentLocation);
                     currentStep++;
                 } else {
-                    // Ziel erreicht
-                    //TODO: Wenn man ausschaltet, während es am abbauen ist, ist alles gut. Schaltet man es ein, so ist es unsichtbar, aber baut weiter ab.
-                    //Fix: Es soll wieder zum Anfang tpt werden, wenn man es anschaltet
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                                if (!automaticDrillObject.isSetting()) {
-                                    blockDisplay.teleport(start);
-                                    blockDisplay.setVisibleByDefault(false);
-                                    return;
-                                }
-                                BreakGenListener.breakGen(generationBaseObject, automaticChestObject, p);
-                                if (GenerationService.brokedGenList.contains(p)) {
-                                    blockDisplay.remove();
-                                    currentStep = 0;
-                                    GenerationService.brokedGenList.remove(p);
-                                    start.add(1, 1, 0);
-                                    drawParticleDrill(p, start, end);
-                                    this.cancel();
-                                }
-                            }
-                    }.runTaskTimer(FreeBuild.getInstance(), 0L, 20L);
-                    this.cancel(); // Beendet den Bewegungstask
+                    breakGenLogic(p, blockDisplay, start, end);
+                    this.cancel();
                 }
             }
         }.runTaskTimer(FreeBuild.getInstance(), 0L, 1L);
     }
 
-    public static void spawnParticle(Location start, Location end, org.bukkit.Color color) {
+    public static void breakGenLogic(Player p, BlockDisplay blockDisplay, Location start, Location end) {
+        AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p);
+        GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
+        AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if(!p.isOnline() || automaticDrillObject.getDispenser() == null) {
+                    blockDisplay.remove();
+                    this.cancel();
+                    return;
+                }
+                if (!automaticDrillObject.isSetting()) {
+                    blockDisplay.teleport(start);
+                    blockDisplay.setVisibleByDefault(false);
+                    moveDrill(p, blockDisplay, start, end);
+                    this.cancel();
+                    return;
+                }
+                BreakGenListener.breakGen(generationBaseObject, automaticChestObject, p);
+                if (GenerationService.brokedGenList.contains(p)) {
+                    blockDisplay.teleport(start);
+                    GenerationService.brokedGenList.remove(p);
+                    moveDrill(p, blockDisplay, start, end);
+                    this.cancel();
+                }
+            }
+        }.runTaskTimer(FreeBuild.getInstance(), 0L, 20L);
+    }
+
+    public static void spawnParticle(Location start, Location end, Color color) {
         double distanz = start.distance(end);
         double schritt = 0.2;
         Vector direction = end.toVector().subtract(start.toVector()).normalize().multiply(schritt);

@@ -17,7 +17,7 @@ public class AutomaticChestObject {
     @Getter
     private double z;
     @Getter
-    private Chest chest;
+    private final Chest chest;
     private boolean setting;
 
     public static HashMap<Player, AutomaticChestObject> automaticChestObjectMap = new HashMap<Player, AutomaticChestObject>();

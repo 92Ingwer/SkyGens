@@ -16,6 +16,7 @@ import org.kim.freeBuild.enums.MineralsEnum;
 import org.kim.freeBuild.listeners.BreakGenListener;
 import org.kim.freeBuild.methods.GenMethods;
 import org.kim.freeBuild.services.GenerationService;
+import org.kim.freeBuild.timers.GenInactiveTimer;
 
 public class BrokenGenObject {
 
@@ -23,11 +24,11 @@ public class BrokenGenObject {
     @Getter
     private int hearts;
     @Getter
-    private Location loc;
-    private Player p;
+    private final Location loc;
+    private final Player p;
     private GenerationBaseObject generationBaseObject;
     private TextDisplay textDisplay;
-    private AutomaticChestObject automaticChestObject;
+    private final AutomaticChestObject automaticChestObject;
     
     public BrokenGenObject(int hearts, Location loc, Player p, GenerationBaseObject generationBaseObject, AutomaticChestObject automaticChestObject) {
         this.hearts = (hearts * (100 - 5 * generationBaseObject.getUpgrade())) / 100;
@@ -38,10 +39,13 @@ public class BrokenGenObject {
     }
 
     public void setHearts(int hearts) {
+        if(GenerationService.inactiveGenList.contains(p)) {
+            return;
+        }
         this.hearts = hearts;
         try {
             textDisplay.remove();
-        } catch (Exception e) {};
+        } catch (Exception e) {}
         textDisplay = loc.getWorld().spawn(loc, TextDisplay.class);
         textDisplay.text(Component.text("§c" + hearts + "❤"));
         textDisplay.setBillboard(Display.Billboard.CENTER);
@@ -55,6 +59,7 @@ public class BrokenGenObject {
             double usage = MineralsEnum.getUsage(level);
             Block b = loc.getBlock();
             if(usage > fuel ) {
+                GenInactiveTimer.createInactiveTimer(p);
                 GenMethods.createExplosion(b);
                 return;
             }
