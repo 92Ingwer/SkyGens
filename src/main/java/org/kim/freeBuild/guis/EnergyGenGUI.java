@@ -54,7 +54,7 @@ public class EnergyGenGUI implements Listener {
                         fuel = fuel+ (FuelEnum.getFuel(clickedItem.getType())*clickedItem.getAmount());
                     }
                 }
-                GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
+                GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p.getUniqueId());
                 generationBaseObject.setFuel(fuel+generationBaseObject.getFuel());
                 p.closeInventory();
                 p.sendMessage("Du hast nun " + fuel + "J mehr!");

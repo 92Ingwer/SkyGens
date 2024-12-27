@@ -4,9 +4,9 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Chest;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class AutomaticChestObject {
 
@@ -20,7 +20,7 @@ public class AutomaticChestObject {
     private final Chest chest;
     private boolean setting;
 
-    public static HashMap<Player, AutomaticChestObject> automaticChestObjectMap = new HashMap<Player, AutomaticChestObject>();
+    public static HashMap<UUID, AutomaticChestObject> automaticChestObjectMap = new HashMap<>();
     public AutomaticChestObject(Double x, Double y, Double z, Chest chest, boolean setting) {
         this.x = x;
         this.y = y;
@@ -30,8 +30,7 @@ public class AutomaticChestObject {
     }
 
     public Location getLocation() {
-        Location loc = new Location(Bukkit.getWorld("InselWelt"),getX(),getY(),getZ());
-        return loc;
+        return new Location(Bukkit.getWorld("InselWelt"),getX(),getY(),getZ());
     }
 
     public void setLocation(Location loc) {

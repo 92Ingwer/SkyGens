@@ -10,3 +10,5 @@ commands:
   sell:
   money:
   giveitems:
+  test:
+  skills:

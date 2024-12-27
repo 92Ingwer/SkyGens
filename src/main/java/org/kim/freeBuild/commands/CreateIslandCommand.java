@@ -2,7 +2,6 @@ package org.kim.freeBuild.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,6 +16,7 @@ import org.kim.freeBuild.objects.PlayerBaseObject;
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class CreateIslandCommand implements CommandExecutor {
 
@@ -33,7 +33,7 @@ public class CreateIslandCommand implements CommandExecutor {
             p.sendMessage("Du hast schon eine Insel, diggi!");
             return false;
         }
-
+        OnQuitListener onQuitListener = new OnQuitListener();
         // Asynchrone Datenbankabfrage
         Bukkit.getScheduler().runTaskAsynchronously(FreeBuild.getInstance(), () -> {
             int islandId = 0;
@@ -51,14 +51,14 @@ public class CreateIslandCommand implements CommandExecutor {
             Bukkit.getScheduler().runTask(FreeBuild.getInstance(), () -> {
                 // Insel erstellen
                 PlayerBaseObject playerBaseObject = new PlayerBaseObject(0, strings[0], finalIslandId, "InselWelt",finalIslandId * 4000, 170, finalIslandId * 4000, 1);
-                OnQuitListener.updatePlayerBase(0, strings[0], finalIslandId, "InselWelt", finalIslandId * 4000, 170, finalIslandId * 4000, p.getUniqueId().toString(), 1);
-                PlayerBaseObject.playerBaseObjectMap.put(p, playerBaseObject);
+                onQuitListener.updatePlayerBase(0, strings[0], finalIslandId, "InselWelt", finalIslandId * 4000, 170, finalIslandId * 4000, p.getUniqueId().toString(), 1);
+                PlayerBaseObject.playerBaseObjectMap.put(p.getUniqueId(), playerBaseObject);
                 Location islandCenter = new Location(Bukkit.getWorld("InselWelt"), (finalIslandId * 4000) + 9, 179, (finalIslandId * 4000) + 8);
                 //genbase erstellen
                 GenerationBaseObject generationBaseObject = new GenerationBaseObject(-1,-1,-1,1,0,0);
-                GenerationBaseObject.generationBaseObjectMap.put(p, generationBaseObject);
+                GenerationBaseObject.generationBaseObjectMap.put(p.getUniqueId(), generationBaseObject);
                 // Schematic laden
-                File schematicFile = new File(Bukkit.getServer().getPluginManager().getPlugin("WorldEdit").getDataFolder(), "schematics/inselperfect.schem");
+                File schematicFile = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("WorldEdit")).getDataFolder(), "schematics/inselperfect.schem");
                 CreateIslandMethods.paste(islandCenter, schematicFile, p);
                 Bukkit.getLogger().info("Schematic erfolgreich eingefügt!");
                 p.sendMessage("Alles geht diggi");

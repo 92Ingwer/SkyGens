@@ -24,8 +24,8 @@ public class GenGUI implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
-        GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
-        PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(p);
+        GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p.getUniqueId());
+        PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(p.getUniqueId());
         if (e.getView().title().equals(Component.text("Gen - Menü"))) {
             e.setCancelled(true);
             if (e.getSlot() == 42) {
@@ -53,7 +53,7 @@ public class GenGUI implements Listener {
     }
 
     public static void openInventory(Player p) {
-        GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
+        GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p.getUniqueId());
         int upgrade = generationBaseObject.getUpgrade();
         int level = generationBaseObject.getLevel();
         double fuel = generationBaseObject.getFuel();
@@ -112,8 +112,8 @@ public class GenGUI implements Listener {
             playerBaseObject.setBankmoney(bankmoney - priceUpgrade);
             generationBaseObject.setUpgrade(upgrade+1);
             p.sendMessage("Erfolgreichs Upgrade!");
-            PlayerBaseObject.playerBaseObjectMap.put(p,playerBaseObject);
-            GenerationBaseObject.generationBaseObjectMap.put(p,generationBaseObject);
+            PlayerBaseObject.playerBaseObjectMap.put(p.getUniqueId(),playerBaseObject);
+            GenerationBaseObject.generationBaseObjectMap.put(p.getUniqueId(),generationBaseObject);
             p.closeInventory();
         } else {
             p.sendMessage("Nicht genug Geld!");
@@ -135,8 +135,8 @@ public class GenGUI implements Listener {
             generationBaseObject.setLevel(level+1);
             generationBaseObject.setUpgrade(0);
             p.sendMessage("Erfolgreichs Level!");
-            PlayerBaseObject.playerBaseObjectMap.put(p,playerBaseObject);
-            GenerationBaseObject.generationBaseObjectMap.put(p,generationBaseObject);
+            PlayerBaseObject.playerBaseObjectMap.put(p.getUniqueId(),playerBaseObject);
+            GenerationBaseObject.generationBaseObjectMap.put(p.getUniqueId(),generationBaseObject);
             block.setType(MineralsEnum.getMaterial(level+1));
             GenMethods.createExplosion(block);
             p.closeInventory();

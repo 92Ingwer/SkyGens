@@ -8,10 +8,9 @@ import org.kim.freeBuild.guis.*;
 import org.kim.freeBuild.listeners.*;
 import org.kim.freeBuild.recipes.GenMechanicsRecipes;
 import org.kim.freeBuild.schedulers.TenSecond;
+import org.kim.freeBuild.skills.BreakBlockListener;
 import org.kim.freeBuild.sql.SQL;
 import org.kim.freeBuild.sql.SQLCreate;
-
-import java.security.cert.Extension;
 
 public final class FreeBuild extends JavaPlugin {
     @Getter
@@ -44,6 +43,9 @@ public final class FreeBuild extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new BreakDrillListener(),this);
         Bukkit.getPluginManager().registerEvents(new BlockExplosiveEvent(),this);
         Bukkit.getPluginManager().registerEvents(new DrillGui(),this);
+        Bukkit.getPluginManager().registerEvents(new BreakBlockListener(), this);
+        Bukkit.getPluginManager().registerEvents(new SkillsGUI(), this);
+       // Bukkit.getPluginManager().registerEvents(new SpecificSkillGUI(), this);
 
         //Commands
         this.getCommand("createisland").setExecutor(new CreateIslandCommand());
@@ -52,6 +54,8 @@ public final class FreeBuild extends JavaPlugin {
         this.getCommand("sell").setExecutor(new SellCommand());
         this.getCommand("money").setExecutor(new MoneyCommand());
         this.getCommand("giveitems").setExecutor(new GiveItemsCommand());
+        this.getCommand("test").setExecutor(new TestCommand());
+        this.getCommand("skills").setExecutor(new SkillsCommand());
 
 
         //Recipes
@@ -71,4 +75,6 @@ public final class FreeBuild extends JavaPlugin {
         sql.update("USE FreeBuild");
         SQLCreate.create();
     }
+
+    //TODO: Farming-Skill done, but without features, GUI for all Skills & all Skills
 }

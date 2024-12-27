@@ -1,6 +1,6 @@
 package org.kim.freeBuild.enums;
 
-import net.kyori.adventure.text.Component;
+import lombok.Getter;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -8,6 +8,7 @@ import org.kim.freeBuild.utils.ItemBuilder;
 
 import java.util.List;
 
+@Getter
 public enum GenItemEnum {
     COAL(Material.COAL,1,1,"Kohle"),
     DEEPSLATE_COAL(Material.COAL, 2, 2, "Kohle"),
@@ -44,12 +45,6 @@ public enum GenItemEnum {
         this.name = name;
     }
 
-    public Material getMaterial() {
-        return material;
-    }
-    public int getLevel() {
-        return level;
-    }
     public static Material getMaterial(int level) {
         for(GenItemEnum genItemEnum : GenItemEnum.values()) {
             if(genItemEnum.getLevel() == level) {
@@ -58,12 +53,7 @@ public enum GenItemEnum {
         }
         return null;
     }
-    public String getName() {
-        return name;
-    }
-    public int getPrice() {
-        return price;
-    }
+
     public static String getName(int level) {
         for(GenItemEnum genItemEnum : GenItemEnum.values()) {
             if(genItemEnum.getLevel() == level) {
@@ -84,7 +74,6 @@ public enum GenItemEnum {
 
     public static ItemStack getItem(int level) {
         Material material = getMaterial(level);
-        String name = getName(level);
         int price = getPrice(level);
         return new ItemBuilder(material)
                 .name(MiniMessage.miniMessage().deserialize("<gradient:#FFFFFF:#F57A7A>"+ getName(level)+ " (Level " +level +")</gradient>"))

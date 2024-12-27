@@ -9,19 +9,23 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.kim.freeBuild.objects.PlayerBaseObject;
 import org.kim.freeBuild.services.IslandService;
 
+import java.util.UUID;
+
 
 public class OnMoveListener implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         Player p = e.getPlayer();
         if (!p.isOp()) {
-            if (!IslandService.islandBeAllowedToMove.containsKey(p)) {
+            if (!IslandService.islandBeAllowedToMove.containsKey(p.getUniqueId())) {
                 Location l = e.getFrom();
-                PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(p);
+                PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(p.getUniqueId());
                 cancelMove(e, p, playerBaseObject, l);
             } else {
-                Player t = IslandService.islandBeAllowedToMove.get(p);
-                PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(t);
+                UUID uuid = IslandService.islandBeAllowedToMove.get(p.getUniqueId());
+                Player t = Bukkit.getPlayer(uuid);
+                assert t != null;
+                PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(t.getUniqueId());
                 Location l = e.getFrom();
                 cancelMove(e, p, playerBaseObject, l);
 

@@ -5,9 +5,9 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Dispenser;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -20,7 +20,7 @@ public class AutomaticDrillObject {
     private int level;
     private Dispenser dispenser;
 
-    public static HashMap<Player, AutomaticDrillObject> automaticDrillObject = new HashMap<>();
+    public static HashMap<UUID, AutomaticDrillObject> automaticDrillObject = new HashMap<>();
     public AutomaticDrillObject(Double x, Double y, Double z,Dispenser dispenser, boolean setting, int level) {
         this.x = x;
         this.y = y;

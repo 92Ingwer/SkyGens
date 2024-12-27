@@ -20,9 +20,9 @@ public class BlockExplosiveEvent implements Listener {
     @EventHandler
     public void onBlockExplosive(BlockExplodeEvent e) {
         for (Player p : Bukkit.getOnlinePlayers()) {
-            AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p);
-            AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p);
-            GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
+            AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p.getUniqueId());
+            AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p.getUniqueId());
+            GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p.getUniqueId());
             e.blockList().removeIf(block -> block.getLocation().equals(automaticDrillObject.getLocation()) || block.getLocation().equals(automaticChestObject.getLocation()) || block.getLocation().equals(generationBaseObject.getLocation()));
         }
     }

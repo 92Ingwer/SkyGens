@@ -11,6 +11,7 @@ public class SQLCreate {
         FreeBuild.getSql().update("CREATE TABLE IF NOT EXISTS playerbase (uuid VARCHAR(36), bankmoney BIGINT, islandname VARCHAR(36),islandid BIGINT, world VARCHAR(36), x DOUBLE, y DOUBLE, z DOUBLE, amountofgens BIGINT)");
         FreeBuild.getSql().update("CREATE TABLE IF NOT EXISTS genbase (uuid VARCHAR(36), x DOUBLE, y DOUBLE,z DOUBLE, level BIGINT, upgrade BIGINT, fuel DOUBLE)");
         FreeBuild.getSql().update("CREATE TABLE IF NOT EXISTS upgrades (uuid VARCHAR(36), x DOUBLE, y DOUBLE,z DOUBLE, upgradetype VARCHAR(36))");
+        FreeBuild.getSql().update("CREATE TABLE IF NOT EXISTS skills (uuid VARCHAR(36), skill VARCHAR(36), level BIGINT, xp DOUBLE)");
     }
 
 
@@ -20,6 +21,7 @@ public class SQLCreate {
             FreeBuild.getSql().update("INSERT INTO genbase (uuid, x, y, z, level, upgrade, fuel) VALUES ('" + uuid + "', NULL, NULL, NULL, '0','-1','0')");
             FreeBuild.getSql().update("INSERT INTO upgrades (uuid, x, y, z, upgradetype) VALUES ('" + uuid + "', NULL, NULL, NULL, 'chest')");
             FreeBuild.getSql().update("INSERT INTO upgrades (uuid, x, y, z, upgradetype) VALUES ('" + uuid + "', NULL, NULL, NULL, 'drill')");
+            FreeBuild.getSql().update("INSERT INTO skills (uuid, skill, level, xp) VALUES ('" + uuid + "', 'FARMING', '0', '0')");
         }
     }
 
@@ -29,7 +31,7 @@ public class SQLCreate {
             if (rs.next()) {
                 return rs.getString("uuid") != null;
             }
-        } catch (SQLException e) {
+        } catch (SQLException ignored) {
 
         }
         return false;
@@ -263,6 +265,30 @@ public class SQLCreate {
             ResultSet rs = FreeBuild.getSql().getResult("SELECT z FROM upgrades WHERE uuid = '" + uuid + "' AND upgradetype = 'drill'");
             if (rs.next()) {
                 return rs.getDouble("z");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1.0;
+    }
+
+    public static Integer getFarmingLevel(UUID uuid) {
+        try {
+            ResultSet rs = FreeBuild.getSql().getResult("SELECT level FROM skills WHERE uuid = '" + uuid + "' AND skill = 'FARMING'");
+            if (rs.next()) {
+                return rs.getInt("level");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public static Double getFarmingXP(UUID uuid) {
+        try {
+            ResultSet rs = FreeBuild.getSql().getResult("SELECT xp FROM skills WHERE uuid = '" + uuid + "' AND skill = 'FARMING'");
+            if (rs.next()) {
+                return rs.getDouble("xp");
             }
         } catch (SQLException e) {
             e.printStackTrace();

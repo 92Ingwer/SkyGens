@@ -2,7 +2,6 @@ package org.kim.freeBuild.objects;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -10,7 +9,6 @@ import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
 import org.kim.freeBuild.enums.GenItemEnum;
 import org.kim.freeBuild.enums.MineralsEnum;
 import org.kim.freeBuild.listeners.BreakGenListener;
@@ -39,21 +37,21 @@ public class BrokenGenObject {
     }
 
     public void setHearts(int hearts) {
-        if(GenerationService.inactiveGenList.contains(p)) {
+        if(GenerationService.inactiveGenList.contains(p.getUniqueId())) {
             return;
         }
         this.hearts = hearts;
         try {
             textDisplay.remove();
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
         textDisplay = loc.getWorld().spawn(loc, TextDisplay.class);
         textDisplay.text(Component.text("§c" + hearts + "❤"));
         textDisplay.setBillboard(Display.Billboard.CENTER);
         if(hearts <= 0) {
             textDisplay.remove();
-            GenerationService.brokenGenObjects.remove(p);
-            GenerationService.brokedGenList.add(p);
-            generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
+            GenerationService.brokenGenObjects.remove(p.getUniqueId());
+            GenerationService.brokedGenList.add(p.getUniqueId());
+            generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p.getUniqueId());
             int level = generationBaseObject.getLevel();
             double fuel = generationBaseObject.getFuel();
             double usage = MineralsEnum.getUsage(level);

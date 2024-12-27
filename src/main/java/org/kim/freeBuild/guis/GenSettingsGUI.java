@@ -4,7 +4,6 @@ package org.kim.freeBuild.guis;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,8 +20,8 @@ public class GenSettingsGUI implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(player);
-        AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(player);
+        AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(player.getUniqueId());
+        AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(player.getUniqueId());
         if (event.getView().title().equals(Component.text("Gen - Einstellungen"))) {
             event.setCancelled(true);
             switch (event.getSlot()) {
@@ -39,8 +38,8 @@ public class GenSettingsGUI implements Listener {
     }
 
     public static void openInventory(Player p) {
-        AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p);
-        AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p);
+        AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p.getUniqueId());
+        AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p.getUniqueId());
         Chest chest = automaticChestObject.getChest();
         Component chestType;
         Component drillType;

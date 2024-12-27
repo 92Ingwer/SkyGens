@@ -1,7 +1,9 @@
 package org.kim.freeBuild.enums;
 
+import lombok.Getter;
 import org.bukkit.Material;
 
+@Getter
 public enum FuelEnum {
     COAL(Material.COAL, 5),
     CHARCOAL(Material.CHARCOAL, 6),
@@ -20,13 +22,6 @@ public enum FuelEnum {
     FuelEnum(Material material, double fuel) {
         this.material = material;
         this.fuel = fuel;
-    }
-
-    public Material getMaterial() {
-        return material;
-    }
-    public double getFuel() {
-        return fuel;
     }
 
     public static double getFuel(Material material) {

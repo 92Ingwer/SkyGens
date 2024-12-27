@@ -6,17 +6,13 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Dispenser;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
 import org.joml.AxisAngle4f;
@@ -39,9 +35,9 @@ public class PlaceUpgraderListener implements Listener {
         Player p = e.getPlayer();
         ItemStack item = e.getItemInHand();
         Block b = e.getBlockPlaced();
-        AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p);
-        GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
-        AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p);
+        AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p.getUniqueId());
+        GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p.getUniqueId());
+        AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p.getUniqueId());
 
         //Chest placen
         if (item.equals(GeneratorItems.getChest())) {
@@ -59,11 +55,11 @@ public class PlaceUpgraderListener implements Listener {
             Chest chest = (Chest) b.getState();
             setItemSlots(chest);
             AutomaticChestObject automaticChestObjectNew = new AutomaticChestObject(loc.getX(), loc.getY(), loc.getZ(), chest, true);
-            AutomaticChestObject.automaticChestObjectMap.put(p, automaticChestObjectNew);
+            AutomaticChestObject.automaticChestObjectMap.put(p.getUniqueId(), automaticChestObjectNew);
             List<Location> locationList = new ArrayList<>();
             locationList.add(loc.add(0.5, 0.5, 0.5));
             locationList.add(generationBaseObject.getLocation().add(0.5, 0.5, 0.5));
-            GenerationService.locationForChestParticle.put(p, locationList);
+            GenerationService.locationForChestParticle.put(p.getUniqueId(), locationList);
             drawParticleChest(p);
         }
         //DRill placen
@@ -81,11 +77,11 @@ public class PlaceUpgraderListener implements Listener {
             }
             Dispenser dispenser = (Dispenser) b.getState();
             AutomaticDrillObject automaticDrillObjectNew = new AutomaticDrillObject(loc.getX(), loc.getY(), loc.getZ(), dispenser, true, 0);
-            AutomaticDrillObject.automaticDrillObject.put(p, automaticDrillObjectNew);
+            AutomaticDrillObject.automaticDrillObject.put(p.getUniqueId(), automaticDrillObjectNew);
             List<Location> locationList = new ArrayList<>();
             locationList.add(loc.add(1, 1, 1));
             locationList.add(generationBaseObject.getLocation().add(0.5, 0.5, 0.5));
-            GenerationService.locationForDrillParticle.put(p, locationList);
+            GenerationService.locationForDrillParticle.put(p.getUniqueId(), locationList);
             spawnDrill(p);
         }
 
@@ -96,15 +92,15 @@ public class PlaceUpgraderListener implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                List<Location> locationList = GenerationService.locationForChestParticle.get(p);
+                List<Location> locationList = GenerationService.locationForChestParticle.get(p.getUniqueId());
                 Location start = locationList.get(0);
                 Location end = locationList.get(1);
-                AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p);
+                AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p.getUniqueId());
                 if(!Bukkit.getOnlinePlayers().contains(p) || automaticChestObject.getChest() == null) {
                     this.cancel();
                     return;
                 }
-                if (!automaticChestObject.getSetting() || GenerationService.inactiveGenList.contains(p)) {
+                if (!automaticChestObject.getSetting() || GenerationService.inactiveGenList.contains(p.getUniqueId())) {
                     return;
                 }
                 spawnParticle(start, end, Color.RED);
@@ -116,15 +112,15 @@ public class PlaceUpgraderListener implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                List<Location> locationList = GenerationService.locationForDrillParticle.get(p);
+                List<Location> locationList = GenerationService.locationForDrillParticle.get(p.getUniqueId());
                 Location start = locationList.get(0);
                 Location end = locationList.get(1);
-                AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p);
-                if (!Bukkit.getOnlinePlayers().contains(p) || automaticDrillObject.getDispenser() == null) {
+                AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p.getUniqueId());
+                if (!Bukkit.getOnlinePlayers().contains(p) || automaticDrillObject.getX() == -1) {
                     this.cancel();
                     return;
                 }
-                if (!automaticDrillObject.isSetting() || GenerationService.inactiveGenList.contains(p)) {
+                if (!automaticDrillObject.isSetting() || GenerationService.inactiveGenList.contains(p.getUniqueId())) {
                     return;
                 }
                 spawnParticle(start.clone().add(0.5, 0.5, 0), end, Color.AQUA);
@@ -133,7 +129,7 @@ public class PlaceUpgraderListener implements Listener {
     }
 
     public static void spawnDrill(Player p) {
-        List<Location> locationList = GenerationService.locationForDrillParticle.get(p);
+        List<Location> locationList = GenerationService.locationForDrillParticle.get(p.getUniqueId());
         Location start = locationList.get(0);
         Location end = locationList.get(1);
         BlockDisplay blockDisplay = p.getWorld().spawn(start.add(-1, -1, 0), BlockDisplay.class, entity -> {
@@ -150,14 +146,14 @@ public class PlaceUpgraderListener implements Listener {
             private int currentStep = 0;
             @Override
             public void run() {
-                AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p);
+                AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p.getUniqueId());
                 Location endNew = end.clone().add(-0.5, -0.5, -1);
-                if(!Bukkit.getOnlinePlayers().contains(p) || automaticDrillObject.getDispenser() == null) {
+                if(!Bukkit.getOnlinePlayers().contains(p) || automaticDrillObject.getX() == -1) {
                     blockDisplay.remove();
                     this.cancel();
                     return;
                 }
-                if (!automaticDrillObject.isSetting() || GenerationService.inactiveGenList.contains(p)) {
+                if (!automaticDrillObject.isSetting() || GenerationService.inactiveGenList.contains(p.getUniqueId())) {
                     blockDisplay.teleport(start);
                     blockDisplay.setVisibleByDefault(false);
                     currentStep = 0;
@@ -179,13 +175,13 @@ public class PlaceUpgraderListener implements Listener {
     }
 
     public static void breakGenLogic(Player p, BlockDisplay blockDisplay, Location start, Location end) {
-        AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p);
-        GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
-        AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p);
+        AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p.getUniqueId());
+        GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p.getUniqueId());
+        AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p.getUniqueId());
         new BukkitRunnable() {
             @Override
             public void run() {
-                if(!p.isOnline() || automaticDrillObject.getDispenser() == null) {
+                if(!p.isOnline() || automaticDrillObject.getX() == -1) {
                     blockDisplay.remove();
                     this.cancel();
                     return;
@@ -198,9 +194,9 @@ public class PlaceUpgraderListener implements Listener {
                     return;
                 }
                 BreakGenListener.breakGen(generationBaseObject, automaticChestObject, p);
-                if (GenerationService.brokedGenList.contains(p)) {
+                if (GenerationService.brokedGenList.contains(p.getUniqueId())) {
                     blockDisplay.teleport(start);
-                    GenerationService.brokedGenList.remove(p);
+                    GenerationService.brokedGenList.remove(p.getUniqueId());
                     moveDrill(p, blockDisplay, start, end);
                     this.cancel();
                 }

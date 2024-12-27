@@ -1,9 +1,7 @@
 package org.kim.freeBuild.commands;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,10 +29,10 @@ public class IslandTPCommand implements CommandExecutor {
                 p.sendMessage("Hast keine Insel bro");
                 return false;
             }
-            PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(p);
+            PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(p.getUniqueId());
             Location loc = new Location(Bukkit.getWorld(playerBaseObject.getWorld()),playerBaseObject.getX(),playerBaseObject.getY(),playerBaseObject.getZ());
             p.teleport(loc);
-            IslandService.islandBeAllowedToMove.remove(p);
+            IslandService.islandBeAllowedToMove.remove(p.getUniqueId());
             return true;
         }
         Player t = Bukkit.getPlayer(strings[0]);
@@ -42,11 +40,11 @@ public class IslandTPCommand implements CommandExecutor {
             p.sendMessage("Spieler nicht on!");
             return false;
         }
-        PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(t);
+        PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(t.getUniqueId());
         Location loc = new Location(Bukkit.getWorld(playerBaseObject.getWorld()),playerBaseObject.getX(),playerBaseObject.getY(),playerBaseObject.getZ());
         p.teleport(loc);
-        IslandService.islandBeAllowedToMove.remove(p);
-        IslandService.islandBeAllowedToMove.put(p,t);
+        IslandService.islandBeAllowedToMove.remove(p.getUniqueId());
+        IslandService.islandBeAllowedToMove.put(p.getUniqueId(),t.getUniqueId());
         return false;
     }
 }

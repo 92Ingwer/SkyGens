@@ -12,42 +12,42 @@ import org.kim.freeBuild.objects.PlayerBaseObject;
 public class SellCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if(!(commandSender instanceof Player p)) {
+        if (!(commandSender instanceof Player p)) {
             return false;
         }
-        if(strings.length != 1) {
+        if (strings.length != 1) {
             p.sendMessage("§cUsage: Verwende /sell (hand/all)");
             return false;
         }
-        PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(p);
+        PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(p.getUniqueId());
         int bankmoney = playerBaseObject.getBankmoney();
         int value = 0;
-        if(strings[0].equalsIgnoreCase("hand")) {
+        if (strings[0].equalsIgnoreCase("hand")) {
             ItemStack item = p.getInventory().getItemInMainHand();
             int amount = item.getAmount();
             item.setAmount(1);
-            for(int i = 1; i < 19;i++) {
-                if(item.equals(GenItemEnum.getItem(i))) {
-                    value = value+ GenItemEnum.getPrice(i)*amount;
+            for (int i = 1; i < 19; i++) {
+                if (item.equals(GenItemEnum.getItem(i))) {
+                    value = value + GenItemEnum.getPrice(i) * amount;
                     playerBaseObject.setBankmoney(bankmoney + (value));
                     p.getInventory().setItemInMainHand(null);
-                    PlayerBaseObject.playerBaseObjectMap.put(p, playerBaseObject);
+                    PlayerBaseObject.playerBaseObjectMap.put(p.getUniqueId(), playerBaseObject);
                 }
             }
             item.setAmount(amount);
             return true;
-        }else if(strings[0].equalsIgnoreCase("all")) {
-            for(int i = 0; p.getInventory().getSize() > i;i++) {
+        } else if (strings[0].equalsIgnoreCase("all")) {
+            for (int i = 0; p.getInventory().getSize() > i; i++) {
                 ItemStack item = p.getInventory().getItem(i);
-                if(item != null) {
+                if (item != null) {
                     int amount = item.getAmount();
                     item.setAmount(1);
                     for (int ii = 1; ii < 19; ii++) {
                         if (item.equals(GenItemEnum.getItem(ii))) {
-                            value =value + GenItemEnum.getPrice(ii) * amount;
+                            value = value + GenItemEnum.getPrice(ii) * amount;
                             playerBaseObject.setBankmoney(bankmoney + (value));
-                            PlayerBaseObject.playerBaseObjectMap.put(p, playerBaseObject);
-                            p.getInventory().setItem(i,null);
+                            PlayerBaseObject.playerBaseObjectMap.put(p.getUniqueId(), playerBaseObject);
+                            p.getInventory().setItem(i, null);
                         }
                     }
                     item.setAmount(amount);

@@ -1,5 +1,6 @@
 package org.kim.freeBuild.enums;
 
+import lombok.Getter;
 import org.bukkit.Material;
 
 public enum MineralsEnum {
@@ -25,7 +26,9 @@ public enum MineralsEnum {
 
     final Material material;
     final int hearts;
+    @Getter
     final int level;
+    @Getter
     final double usage;
 
     MineralsEnum(Material material, int hearts, int level, double usage) {
@@ -38,21 +41,9 @@ public enum MineralsEnum {
     public Material getMaterial3() {
         return material;
     }
-    public double getUsage() {
-        return usage;
-    }
 
     public int getHearts3() {
         return hearts;
-    }
-
-    public static int getHeart(Material material) {
-        for (MineralsEnum mineral : values()) {
-            if (mineral.getMaterial3() == material) {
-                return mineral.getHearts3();
-            }
-        }
-        return -1;
     }
     public static int getHeart(int level) {
         for (MineralsEnum mineral : values()) {
@@ -61,10 +52,6 @@ public enum MineralsEnum {
             }
         }
         return -1;
-    }
-
-    public int getLevel() {
-        return level;
     }
 
     public static Material getMaterial(int level) {

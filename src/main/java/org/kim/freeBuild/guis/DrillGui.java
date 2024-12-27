@@ -21,14 +21,15 @@ public class DrillGui implements Listener {
         Player p = e.getPlayer();
         Action action = e.getAction();
         Block b = e.getClickedBlock();
-        assert b != null;
+        if(b == null) {
+            return;
+        }
         Location blockLocation = b.getLocation();
-        AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p);
+        AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p.getUniqueId());
         Location drillLocation = automaticDrillObject.getLocation();
         if(action == Action.RIGHT_CLICK_BLOCK && blockLocation.equals(drillLocation)) {
             e.setCancelled(true);
             DrillGui.openInventory(p);
-            return;
         }
     }
     @EventHandler
@@ -37,15 +38,14 @@ public class DrillGui implements Listener {
         if(e.getView().title().equals(Component.text("Automatic - Drill"))) {
             e.setCancelled(true);
             if(e.getSlot() == 8) {
-                AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p);
+                AutomaticDrillObject automaticDrillObject = AutomaticDrillObject.automaticDrillObject.get(p.getUniqueId());
                 Location location = new Location(p.getWorld(), automaticDrillObject.getLocation().getX(), automaticDrillObject.getLocation().getY(), automaticDrillObject.getLocation().getZ());
                 Block b = location.getBlock();
                 b.setType(Material.AIR);
                 p.getInventory().addItem(GeneratorItems.getDrill());
                 AutomaticDrillObject automaticDrillObject1 = new AutomaticDrillObject(-1.0,-1.0,-1.0,null,true,0);
-                AutomaticDrillObject.automaticDrillObject.put(p, automaticDrillObject1);
+                AutomaticDrillObject.automaticDrillObject.put(p.getUniqueId(), automaticDrillObject1);
                 p.closeInventory();
-                return;
             }
         }
     }

@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -21,7 +21,7 @@ public class PlayerBaseObject {
     private double y;
     private double z;
     private int amountofGens;
-    public static final HashMap<Player, PlayerBaseObject> playerBaseObjectMap = new HashMap<>();
+    public static final HashMap<UUID, PlayerBaseObject> playerBaseObjectMap = new HashMap<>();
 
     public PlayerBaseObject(int bankmoney, String islandname, int islandid, String world, double x, double y, double z, int amountofGens) {
         this.bankmoney = bankmoney;

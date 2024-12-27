@@ -4,7 +4,6 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
@@ -12,7 +11,6 @@ import org.joml.AxisAngle4f;
 import org.joml.Vector3f;
 import org.kim.freeBuild.FreeBuild;
 import org.kim.freeBuild.enums.GenItemEnum;
-import org.kim.freeBuild.enums.MineralsEnum;
 import org.kim.freeBuild.items.GeneratorItems;
 import org.kim.freeBuild.objects.AutomaticChestObject;
 import org.kim.freeBuild.objects.GenerationBaseObject;
@@ -20,28 +18,19 @@ import org.kim.freeBuild.services.GenerationService;
 import java.util.List;
 
 public class GenMethods {
-    public static boolean isBlockAnOre(Block block) {
-        Material material = block.getType();
-        for (MineralsEnum mineralsEnum : MineralsEnum.values()) {
-            if (mineralsEnum.getMaterial3() == material) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public static void breakGen(Player p) {
-        GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
+        GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p.getUniqueId());
         Location location = new Location(Bukkit.getWorld("InselWelt"), generationBaseObject.getX(), generationBaseObject.getY(), generationBaseObject.getZ());
         Block b = location.getBlock();
         generationBaseObject.setX(-1);
         generationBaseObject.setY(-1);
         generationBaseObject.setZ(-1);
-        GenerationBaseObject.generationBaseObjectMap.put(p, generationBaseObject);
+        GenerationBaseObject.generationBaseObjectMap.put(p.getUniqueId(), generationBaseObject);
         b.setType(Material.AIR);
         p.getInventory().addItem(GeneratorItems.getGen());
         createExplosion(b);
-        GenerationService.brokenGenObjects.remove(p);
+        GenerationService.brokenGenObjects.remove(p.getUniqueId());
     }
 
     public static void createExplosion(Block b) {
@@ -51,10 +40,10 @@ public class GenMethods {
     }
 
     public static void moveItem(Player p) {
-        AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p);
-        GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
+        AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p.getUniqueId());
+        GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p.getUniqueId());
         int level = generationBaseObject.getLevel();
-        List<Location> locationList = GenerationService.locationForChestParticle.get(p);
+        List<Location> locationList = GenerationService.locationForChestParticle.get(p.getUniqueId());
         Location start = locationList.getFirst().clone();
         Location end = locationList.getLast().clone();
         start.add(0,0.35,0);

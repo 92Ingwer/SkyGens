@@ -15,10 +15,14 @@ public class TenSecond {
             @Override
             public void run() {
                 World world = Bukkit.getWorld("InselWelt");
-                assert world != null;
                 for(Entity entity : world.getEntities()) {
-                    if(entity instanceof TextDisplay && ((TextDisplay) entity).text().contains(Component.text("❤"))) {
-                        entity.remove();
+                    if(entity instanceof TextDisplay textDisplay) {
+                        Component componentText = textDisplay.text();
+                        String text = componentText.toString();
+                        if(text.contains("§cInactive!") || text.contains("⌛")) {
+                            return;
+                        }
+                        textDisplay.remove();
                     }
                 }
             }

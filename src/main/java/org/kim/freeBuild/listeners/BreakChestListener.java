@@ -14,7 +14,7 @@ public class BreakChestListener implements Listener {
     public void onBreak(BlockBreakEvent e) {
         Block b = e.getBlock();
         Player p = e.getPlayer();
-        AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p);
+        AutomaticChestObject automaticChestObject = AutomaticChestObject.automaticChestObjectMap.get(p.getUniqueId());
         if(automaticChestObject == null) {
             return;
         }

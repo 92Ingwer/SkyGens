@@ -11,24 +11,21 @@ import java.util.List;
 public class GeneratorItems {
 
     public static ItemStack getGen() {
-        ItemStack item = new ItemBuilder(Material.BEDROCK)
+        return new ItemBuilder(Material.BEDROCK)
                 .name(MiniMessage.miniMessage().deserialize("<b><gradient:#F5ECD6:#DB9BE9>Generator </gradient></b>"))
                 .lore(List.of(Component.text("§fSetze deinen Generator!")))
                 .build();
-        return item;
     }
     public static ItemStack getChest() {
-        ItemStack item = new ItemBuilder(Material.CHEST)
+        return new ItemBuilder(Material.CHEST)
                 .name(MiniMessage.miniMessage().deserialize("Automatic - Chest"))
                 .lore(List.of(Component.text("§fSetze deine Chest neben deinem Generator!")))
                 .build();
-        return item;
     }
     public static ItemStack getDrill() {
-        ItemStack item = new ItemBuilder(Material.DISPENSER)
+        return new ItemBuilder(Material.DISPENSER)
                 .name(MiniMessage.miniMessage().deserialize("Automatic - Drill"))
                 .lore(List.of(Component.text("§fSetze deinen Drill neben deinem Generator!")))
                 .build();
-        return item;
     }
 }

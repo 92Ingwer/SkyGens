@@ -17,7 +17,7 @@ public class MoneyCommand implements CommandExecutor {
             p.sendMessage("§cUsage: Verwende /money");
             return false;
         }
-        PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(p);
+        PlayerBaseObject playerBaseObject = PlayerBaseObject.playerBaseObjectMap.get(p.getUniqueId());
         int bankmoney = playerBaseObject.getBankmoney();
         p.sendMessage("Geld von " + p.getName() + ": " + bankmoney);
         return false;

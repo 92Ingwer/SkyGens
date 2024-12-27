@@ -12,6 +12,7 @@ import org.kim.freeBuild.objects.GenerationBaseObject;
 import org.kim.freeBuild.services.GenerationService;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class GenInactiveTimer {
     /**
@@ -24,17 +25,17 @@ public class GenInactiveTimer {
      *          have an associated GenerationBaseObject mapped in the system.
      */
     public static void createInactiveTimer(Player p) {
-        GenerationService.inactiveGenList.add(p);
-        GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p);
+        GenerationService.inactiveGenList.add(p.getUniqueId());
+        GenerationBaseObject generationBaseObject = GenerationBaseObject.generationBaseObjectMap.get(p.getUniqueId());
         Location location = generationBaseObject.getLocation().clone().add(0.5,1.5,0.5);
         new BukkitRunnable() {
-            int time = 90;
+            int millis = 90*1000;
             final TextDisplay textDisplayTimer = Objects.requireNonNull(Bukkit.getWorld("InselWelt")).spawn(location, TextDisplay.class);
             final TextDisplay textDisplayInactive = Objects.requireNonNull(Bukkit.getWorld("InselWelt")).spawn(location.clone().add(0,0.3,0), TextDisplay.class);
             @Override
             public void run() {
-                if(time <= 0) {
-                    GenerationService.inactiveGenList.remove(p);
+                if(millis <= 0) {
+                    GenerationService.inactiveGenList.remove(p.getUniqueId());
                     textDisplayTimer.remove();
                     textDisplayInactive.remove();
                     this.cancel();
@@ -42,9 +43,13 @@ public class GenInactiveTimer {
                 }
                 textDisplayInactive.text(Component.text("§cInactive!"));
                 textDisplayInactive.setBillboard(Display.Billboard.CENTER);
-                textDisplayTimer.text(Component.text("§c"+time/60+":"+time%60+" ⌛"));
+                String timeFormated = String.format("%02d:%02d",
+                        TimeUnit.MILLISECONDS.toMinutes(millis),
+                        TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
+                );
+                textDisplayTimer.text(Component.text("§c"+timeFormated + " ⌛"));
                 textDisplayTimer.setBillboard(Display.Billboard.CENTER);
-                time --;
+                millis = millis-1000;
             }
         }.runTaskTimer(FreeBuild.getInstance(),0,20L);
     }
