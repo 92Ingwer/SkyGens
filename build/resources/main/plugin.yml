@@ -1,6 +1,6 @@
-name: FreeBuild
+name: SkyGens
 version: '1.0'
-main: org.kim.freeBuild.FreeBuild
+main: org.kim.SkyGens.SkyGens
 api-version: '1.21'
 softdpend: [ 'Multiverse-Core' ]
 commands:
